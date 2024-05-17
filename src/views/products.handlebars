@@ -1,0 +1,35 @@
+<div>
+    <header>
+        <h1>Productos</h1>
+        <a href="">
+            <h2 class="carrito_de_compras">Carrito</h2>
+        </a>
+    </header>
+    
+    <section class="listCollection">
+        {{#each products}}
+        <ul>
+            <h2>Producto Nº{{increment @index}} </h2>
+            <li><b>Nombre: </b> {{this.title}}</li>
+            <li><b>Descripción: </b> {{this.description}}</li>
+            <li><b>Precio: </b> {{this.price}}</li>
+            <li><b>Código: </b> {{this.code}}</li>
+            <li><b>Stock: </b> {{this.stock}}</li>
+            <li><b>Categoría: </b> {{this.category}}</li>
+        </ul>
+        <button id="add_button_to_cart" type="button" onclick="AddProductToCart({{this._id}})">Agregar al carrito</button>
+        {{/each}}
+    </section>
+    <footer class="pageFooter">
+        {{#if hasPrevPage}}
+        <a href="/products?pageQuery={{prevPage}}" class="pageBreak">Anterior</a>
+        {{/if}}
+        <label class="pageFoot">Página {{page}} de {{totalPages}} </label>
+        {{#if hasNextPage}}
+        <a href="/products?pageQuery={{nextPage}}" class="pageBreak">Siguiente</a>
+        {{/if}}
+    </footer>
+</div>
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/index.js"></script>

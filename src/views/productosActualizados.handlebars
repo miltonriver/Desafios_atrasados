@@ -1,0 +1,70 @@
+<header>
+    <h1>Bienvenido a nuestra tienda!!</h1>
+    <h3 class="identification_tittle">Usted se ha identificado como: <i>{{username}}</i></h3>
+    <div class="icon_cart_container">
+        <a href=""><i class='icon_cart bx bx-cart'>Cart</i></a>
+        <a href="/api/sessions/logout" class="delete_button">Cerrar sesión</a>
+    </div>
+</header>
+<div id="productList">
+    <h2 class="h2_title">Listado de Productos</h2>
+
+    {{#each productos}}
+    <div>
+        <li>
+            Nombre: <b>{{this._doc.title}}</b>
+            <p><b>Descripción:</b> {{this._doc.description}}</p>
+            <p>Precio: <b>$ {{this._doc.price}}</b></p>
+            <p>Código: <b>{{this._doc.code}}</b></p>
+            <p>Id: <b>{{this._doc._id}}</b></p>
+            <button type="button" class="delete_button" onclick='deleteProduct("{{this._doc._id}}")'>Eliminar</button>
+        </li>
+    </div>
+    {{/each}}
+</div>
+
+<div>
+    <h2>Agregar un producto</h2>
+
+    <form action="/realTimeProducts" method="post" id="form_add" onsubmit="addProduct(); return false;">
+        <li>
+            <label for="title">Nombre del Producto:</label>
+            <input type="text" id="title" name="product_title" />
+        </li>
+        <li>
+            <label for="description">Descripción:</label>
+            <input type="text" id="description" name="product_description" />
+        </li>
+        <li>
+            <label for="price">Precio:</label>
+            <input type="text" id="price" name="product_price" />
+        </li>
+        <li>
+            <label for="thumbnail">Imagen:</label>
+            <input type="text" id="thumbnail" name="product_thumbnail" />
+        </li>
+        <li>
+            <label for="code">Código:</label>
+            <input type="text" id="code" name="product_code" />
+        </li>
+        <li>
+            <label for="stock">Stock:</label>
+            <input type="text" id="stock" name="product_stock" />
+        </li>
+        <li>
+            <label for="status">Status:</label>
+            <input type="bool" id="status" name="product_status" />
+        </li>
+        <li>
+            <label for="category">Categoría:</label>
+            <input type="text" id="category" name="product_category" />
+        </li>
+        <li id="submit_button_list">
+            <input value="Agregar" type="submit" id="submit_button">
+        </li>
+    </form>
+</div>
+
+<link rel="stylesheet" href="/css/index.css">
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/index.js"></script>

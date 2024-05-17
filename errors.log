@@ -1,0 +1,118 @@
+{"level":"warn","message":"¡Alerta!"}
+{"level":"warn","message":"¡Alerta!, warning ejecutandose"}
+warning: ¡Alerta!, warning ejecutandose
+warning: ¡Alerta!, warning ejecutandose
+fatal: ¡Alerta!, Error fatal producido
+warning: ¡Alerta!, warning ejecutandose
+fatal: ¡Alerta!, Error fatal producido
+warning: ¡Alerta!, warning ejecutandose
+fatal: ¡Alerta!, Error fatal producido
+error: ¡Alerta!, error del programa
+fatal: ¡Alerta!, Error fatal producido
+error: ¡Alerta!, error del programa
+fatal: ¡Alerta!, Error fatal producido
+error: ¡Alerta!, error del programa
+error: undefined
+error: undefined
+error: undefined
+error: undefined
+error: undefined
+error: undefined
+error: undefined
+error: undefined
+error: undefined
+error: undefined
+error: undefined
+error: undefined
+error: undefined
+error: undefined
+error: undefined
+error: undefined
+error: undefined
+error: undefined
+error: Error al obtener el usuario: this.dao.find is not a function
+error: Error al obtener el usuario: this.dao.find is not a function
+error: Error al intentar actualizar el usuario this.dao.findByIdAndUpdate is not a function
+error: Error al obtener el usuario: this.dao.find is not a function
+error: Error al obtener el usuario: this.dao.find is not a function
+error: Error al obtener el usuario: this.dao.find is not a function
+error: Error al obtener el usuario: this.dao.find is not a function
+error: Error al obtener el usuario: this.dao.find is not a function
+error: Error al obtener el usuario: this.dao.find is not a function
+error: Error al obtener el usuario: this.dao.find is not a function
+error: Error al obtener el usuario: this.dao.find is not a function
+error: Error al obtener el usuario: this.dao.find is not a function
+error: Error al obtener el usuario: this.dao.find is not a function
+error: Error al obtener el usuario: this.dao.find is not a function
+error: undefined
+error: undefined
+error: Error al obtener el usuario: this.dao.find is not a function
+error: Error al obtener el usuario: this.dao.find is not a function
+error: Error al obtener el usuario: this.dao.find is not a function
+error: Error al obtener el usuario: this.dao.find is not a function
+error: Error al obtener el usuario: this.dao.find is not a function
+error: Error al obtener el usuario: this.dao.find is not a function
+error: Error al obtener el usuario: this.dao.find is not a function
+error: Error al obtener el usuario: this.dao.find is not a function
+error: undefined {"code":"ERR_HTTP_HEADERS_SENT"}
+error: undefined {"code":"ERR_HTTP_HEADERS_SENT"}
+error: Error al intentar actualizar el usuario Cast to ObjectId failed for value "{ _id: { _id: '65d68a2b25f4e831bb64526e' } }" (type Object) at path "_id" for model "users"
+error: Error al intentar actualizar el usuario Cast to ObjectId failed for value "{ _id: { _id: '65d68a2b25f4e831bb64526e' } }" (type Object) at path "_id" for model "users"
+error: Error al intentar actualizar el usuario Cast to ObjectId failed for value "{ _id: { _id: '65d68a2b25f4e831bb64526e' } }" (type Object) at path "_id" for model "users"
+error: Error al intentar actualizar el usuario Cast to ObjectId failed for value "{ _id: { _id: '65d6939aa19b3ce1bdffd1eb' } }" (type Object) at path "_id" for model "users"
+error: Error al intentar actualizar el usuario Plan executor error during findAndModify :: caused by :: E11000 duplicate key error collection: ecommerce.users index: username_1 dup key: { username: "manuRiver66" }
+error: undefined {"kind":"ObjectId","path":"_id","reason":{},"stringValue":"\"{ _id: { _id: '6642e0d38398587ce5134837' } }\"","value":{"_id":{"_id":"6642e0d38398587ce5134837"}},"valueType":"Object"}
+error: undefined {"kind":"ObjectId","path":"_id","reason":{},"stringValue":"\"{ _id: { _id: '6642e0d38398587ce5134837' } }\"","value":{"_id":{"_id":"6642e0d38398587ce5134837"}},"valueType":"Object"}
+error: undefined {"kind":"ObjectId","path":"_id","reason":{},"stringValue":"\"{ _id: 'luquitas14' }\"","value":{"_id":"luquitas14"},"valueType":"Object"}
+error: undefined {"kind":"ObjectId","path":"_id","reason":{},"stringValue":"\"{ _id: 'luquitas14' }\"","value":{"_id":"luquitas14"},"valueType":"Object"}
+error: undefined {"code":11000,"index":0,"keyPattern":{"email":1},"keyValue":{"email":"lucas@hotmail.com"}}
+error: Hay un problema al intentar eliminar el usuario seleccionado _id is not defined
+error: Hay un problema al intentar eliminar el usuario seleccionado _id is not defined
+error: Hay un problema al intentar eliminar el usuario seleccionado Cast to ObjectId failed for value "{ _id: 'luquitas14' }" (type Object) at path "_id" for model "users"
+error: undefined {"code":"ERR_HTTP_HEADERS_SENT"}
+error: undefined {"code":"ERR_HTTP_HEADERS_SENT"}
+error: undefined {"code":"ERR_HTTP_HEADERS_SENT"}
+error: undefined {"code":"ERR_HTTP_HEADERS_SENT"}
+error: undefined {"code":"ERR_HTTP_HEADERS_SENT"}
+error: undefined {"code":"ERR_HTTP_HEADERS_SENT"}
+error: undefined {"code":"ERR_HTTP_HEADERS_SENT"}
+error: undefined {"code":"ERR_HTTP_HEADERS_SENT"}
+error: undefined {"code":"ERR_HTTP_HEADERS_SENT"}
+error: undefined
+error: Cannot read properties of null (reading 'first_name')
+error: Hay un problema al intentar eliminar el usuario seleccionado uid is not defined
+error: Hay un problema al intentar eliminar el usuario seleccionado Cast to ObjectId failed for value "{ username: 'luquitas14' }" (type Object) at path "_id" for model "users"
+error: Hay un problema al intentar eliminar el usuario seleccionado Cast to ObjectId failed for value "luquitas14" (type string) at path "_id" for model "users"
+error: undefined {"code":11000,"index":0,"keyPattern":{"email":1},"keyValue":{"email":"lucas@hotmail.com"}}
+error: undefined {"code":11000,"index":0,"keyPattern":{"email":1},"keyValue":{"email":"lucas@hotmail.com"}}
+error: Se produjo un error al intentar agregar el producto E11000 duplicate key error collection: ecommerce.products index: code_1 dup key: { code: "abc123458296" }
+error: Se produjo un error al intentar agregar el producto Error trying to create product
+error: Se produjo un error al intentar agregar el producto Error trying to create product
+error: Se produjo un error al intentar agregar el producto Error trying to create product
+error: Se produjo un error al intentar agregar el producto Error trying to create product
+error: Se produjo un error al intentar agregar el producto Error trying to create product
+error: Se produjo un error al intentar agregar el producto Error trying to create product
+error: undefined
+error: Se produjo un error desconocido al intentar encontrar el producto seleccionado Cast to ObjectId failed for value "{ _id: '65b08cb1113103b1dc5786e' }" (type Object) at path "_id" for model "products"
+error: Error al intentar eliminar el producto:
+error: Error al intentar eliminar el producto: Cast to ObjectId failed for value "{ _id: '6643bda399582d1fb5f1427' }" (type Object) at path "_id" for model "products"
+error: Error al intentar actualizar la cantidad del producto en el carrito: "Cannot read properties of null (reading '_id')"
+error: Error al intentar actualizar la cantidad del producto en el carrito: "Cannot read properties of null (reading '_id')"
+error: Error al intentar actualizar la cantidad del producto en el carrito: "Cannot read properties of null (reading '_id')"
+error: Error al intentar actualizar la cantidad del producto en el carrito: "Cannot read properties of null (reading '_id')"
+error: Error al intentar actualizar la cantidad del producto en el carrito: "Cannot read properties of null (reading '_id')"
+error: Error al intentar actualizar la cantidad del producto en el carrito: "_id is not defined"
+error: Error al intentar actualizar la cantidad del producto en el carrito: "Cannot read properties of null (reading '_id')"
+error: Error al intentar actualizar la cantidad del producto en el carrito: "Cannot read properties of null (reading '_id')"
+error: Error al intentar actualizar la cantidad del producto en el carrito: "Cannot read properties of null (reading '_id')"
+error: Error al intentar actualizar la cantidad del producto en el carrito: "Cannot read properties of null (reading '_id')"
+error: Error al intentar actualizar la cantidad del producto en el carrito: "Cannot read properties of null (reading '_id')"
+error: Error al intentar actualizar la cantidad del producto en el carrito: "Cannot read properties of null (reading '0')"
+error: Error al intentar actualizar la cantidad del producto en el carrito: "Cannot read properties of undefined (reading '0')"
+error: Error al intentar actualizar la cantidad del producto en el carrito: "Cannot read properties of null (reading '_id')"
+error: Producto con ID 65e67376e58a85a3f88ad780 no se encuentra en el carrito.
+error: Producto con ID 65e67376e58a85a3f88ad780 no se encuentra en el carrito.
+error: Producto con ID 65e67376e58a85a3f88ad780 no se encuentra en el carrito.
+error: Producto con ID 65e67376e58a85a3f88ad780 no se encuentra en el carrito.
+error: Producto con ID 65b06681287939a370f000fb no se encuentra en el carrito.
+error: Error al intentar eliminar el carrito:

@@ -1,0 +1,62 @@
+<div id="productList">
+    <h1>Listado de Productos</h1>
+
+    {{#each productos}}
+    <div>
+        <li>
+            Nombre: <b>{{this._doc.title}}</b>
+            <p><b>Descripción:</b> {{this._doc.description}}</p>
+            <p>Precio: <b>$ {{this._doc.price}}</b></p>
+            <p>Código: <b>{{this._doc.code}}</b></p>
+            <p>Id: <b>{{this._doc._id}}</b></p>
+            <button type="button" class="delete_button" onclick='deleteProduct("{{this._doc._id}}")'>Eliminar</button>
+        </li>
+    </div>
+
+    {{/each}}
+</div>
+
+<div>
+    <h2>Agregar un producto</h2>
+
+    <form action="/realTimeProducts" method="post" id="form_add" onsubmit="addProduct(); return false;">
+        <li class="add_product_element">
+            <label for="title" class="add_product_label">Nombre del Producto:</label>
+            <input type="text" class="add_product_input" id="title" name="product_title" placeholder="El título del producto debe ser único"/>
+        </li>
+        <li class="add_product_element">
+            <label for="description" class="add_product_label">Descripción:</label>
+            <input type="text" class="add_product_input" id="description" name="product_description" placeholder="Describa brevemente el producto"/>
+        </li>
+        <li class="add_product_element">
+            <label for="price" class="add_product_label">Precio:</label>
+            <input type="text" class="add_product_input" id="price" name="product_price" placeholder="Ingrese un valor numérico"/>
+        </li>
+        <li class="add_product_element">
+            <label for="thumbnail" class="add_product_label">Imagen:</label>
+            <input type="text" class="add_product_input" id="thumbnail" name="product_thumbnail" placeholder="Imagen descriptiva del producto"/>
+        </li>
+        <li class="add_product_element">
+            <label for="code" class="add_product_label">Código:</label>
+            <input type="text" class="add_product_input" id="code" name="product_code" placeholder="El código debe ser único por cada producto"/>
+        </li>
+        <li class="add_product_element">
+            <label for="stock" class="add_product_label">Stock:</label>
+            <input type="text" class="add_product_input" id="stock" name="product_stock" placeholder="Ingrese un valor numérico"/>
+        </li>
+        <li class="add_product_element">
+            <label for="status" class="add_product_label">Status:</label>
+            <input type="bool" class="add_product_input" id="status" name="product_status" placeholder="El valor por defecto es true"/>
+        </li>
+        <li class="add_product_element">
+            <label for="category" class="add_product_label">Categoría:</label>
+            <input type="text" class="add_product_input" id="category" name="product_category" placeholder="Elija enter alguna de las tres categorías existentes"/>
+        </li>
+        <li id="submit_button_list">
+            <input value="Agregar" type="submit" id="submit_button">
+        </li>
+    </form>
+</div>
+
+<script src="/socket.io/socket.io.js"></script>
+<script src="/js/index.js"></script>

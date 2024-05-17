@@ -1,0 +1,57 @@
+[
+  {
+    "title": "producto 1",
+    "description": "Este es el primer producto de prueba",
+    "price": 500,
+    "thumbnail": "Sin imagen",
+    "code": "abc129347",
+    "stock": 100,
+    "status": true,
+    "category": "nuevos",
+    "id": 1
+  },
+  {
+    "title": "producto 2",
+    "description": "Este es el segundo producto de prueba",
+    "price": 3200,
+    "thumbnail": "Sin imagen",
+    "code": "abc1234",
+    "stock": 89,
+    "status": true,
+    "category": "nuevos",
+    "id": 2
+  },
+  {
+    "title": "producto 3",
+    "description": "descripción del producto 3",
+    "price": "26",
+    "thumbnail": "ninguna",
+    "code": "abc45648",
+    "stock": "56",
+    "status": true,
+    "category": "celular",
+    "id": 3
+  },
+  {
+    "title": "producto 4",
+    "description": "descripción del producto 4",
+    "price": "1596",
+    "thumbnail": "ninguna",
+    "code": "abc4564",
+    "stock": "28",
+    "status": true,
+    "category": "nuevos",
+    "id": 5.612992625328339
+  },
+  {
+    "title": "producto 5",
+    "description": "descripción del producto 5",
+    "price": "19",
+    "thumbnail": "ninguna",
+    "code": "abc45644645",
+    "stock": "28",
+    "status": true,
+    "category": "celular",
+    "id": 0.37029646974402475
+  }
+]

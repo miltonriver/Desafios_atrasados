@@ -1,0 +1,42 @@
+@miPuerto = http://localhost:8080
+
+{{miPuerto}}
+
+###
+GET {{miPuerto}}
+
+###
+POST {{miPuerto}}
+Content-Type: application/json
+
+{
+    "first_name": "Luis",
+    "last_name": "Garcia",
+    "email": "luis@g.mail",
+    "password": "123456",
+    "phone_number": 123456789
+}
+
+###
+POST http://localhost:8080/api/sessions/login
+Content-Type: application/json
+
+{
+    "username": "miltonriver",
+    "password": "12345"
+}
+
+###
+GET http://localhost:8080/api/sessions/current
+authorization: BEARER eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmdWxsbmFtZSI6Im1pbHRvbiBwZXRpdGZvdXIiLCJ1c2VybmFtZSI6Im1pbHRvbnJpdmVyIiwiaWQiOiI2NWQ2OTM5YWExOWIzY2UxYmRmZmQxZWIiLCJpYXQiOjE3MDg2MzAzOTYsImV4cCI6MTcwODcxNjc5Nn0.3oHx4tNY22CufbQNUbOiltB7sfMOakNqcgwxF_AgIQE
+
+###
+POST http://localhost:8080/api/products
+Content-Type: application/json
+
+{
+    "title": "producto 14",
+    "price": 456,
+    "code": "uiodusad45564",
+    "stock": 14
+}

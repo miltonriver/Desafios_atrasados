@@ -1,0 +1,227 @@
+h1, .h2_title{
+    border: solid 3px green;
+    color: blue;
+    text-align: center;
+    background-color: azure;
+    margin-bottom: 0;
+    margin-top: 0;
+}
+
+.identification_tittle{
+    background-color: #dfebef;
+    margin: 0;
+    padding: 10px 5px;
+    color: rgb(39 16 223);
+}
+
+.carrito_de_compras{
+    text-align: right;
+    background-color: azure;
+    font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    margin: 0;
+    padding: 10px;
+}
+
+#product_list{
+    display: flex;
+}
+
+#form_add{
+    display: flex;
+    flex-direction: column;
+    color: red;
+}
+
+.add_product_element{
+    display: inline-flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: flex-start;
+    width: 500px;
+    height: 45px;
+}
+
+.add_product_label{
+    list-style: square;
+    color: blue;
+    padding: 8px;
+}
+
+.add_product_input{
+    width: 400px;
+    height: 10px;
+    padding: 8px;
+}
+
+#form_delete{
+    display: flex;
+    flex-direction: column;
+    color: blueviolet;
+}
+
+li{
+    padding: 5px;
+    margin: 3px;
+}
+
+.delete_button{
+    border-radius: 5px;
+    border: red solid 2px;
+    background-color: orange;
+    color: blue;
+}
+
+.delete_button:hover{
+    font-size: 16px;
+    font-weight: bolder;
+}
+
+#submit_button_list{
+    list-style: none;
+}
+
+#submit_button, #add_button_to_cart{
+    border-radius: 5px;
+    list-style: none;
+    background-color: orange;
+    font-weight: bolder;
+    color:blueviolet;
+}
+
+#submit_button:hover, #add_button_to_cart:hover{
+    font-size: 16px;
+    font-weight: bolder;
+}
+
+#add_product, #delete_product{
+    border-radius: 5px;
+    color: red;
+    padding: 3px;
+    font-weight: bold;
+    margin: 5px;
+    margin-top: 20px;
+}
+
+#chatbox{
+    border: solid blue 3px;
+    width: 200px;
+    height: 20px;
+}
+
+.listCollection{
+    background-color: aliceblue;
+    padding: 10px;
+}
+
+.pageFooter{
+    display: flex;
+    align-items: self-end;
+    justify-content: center;
+    background-color: azure;
+}
+
+.pageBreak{
+    font-size: medium;
+    font-family: 'Trebuchet MS', 'Lucida Sans Unicode', 'Lucida Grande', 'Lucida Sans', Arial, sans-serif;
+    color: blue;
+    font-weight: bolder;
+}
+
+.pageFoot{
+    color: red;
+    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif;
+    font-size:large;
+    padding: 5px 20px 0px 20px;
+    margin: 10px;
+    font-weight:500;
+}
+
+.field_register_form{
+    display: flex;
+    font-family: Arial, Helvetica, sans-serif;
+    font-weight: 700;
+    font-size: 15px;
+    margin: 2px 5px;
+    padding: 3px;
+}
+
+.input_register_form{
+    padding: 5px;
+    width: 30%;
+}
+
+.container{
+    display: flex;
+    align-items: center;
+}
+
+.icon_show{
+    font-size: 20px;
+    transform: translateX(-30px);
+    cursor: pointer;
+}
+
+.icon_show:hover{
+    font-size: 25px;
+}
+
+.h4_password{
+    padding: 5px;
+    margin: 5px 0px 50px 0px;
+}
+
+.icon_cart_container{
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    margin: 5px 0;
+}
+
+.icon_cart{
+    font-size: 25px;
+    cursor: pointer;
+    color: blueviolet;
+    padding: 5px;
+    margin: 0 10px;
+}
+
+.register_success_container{
+    display: flex;
+    justify-content: center;
+}
+
+.register_success-body{
+    height: 500px;
+    width: 95%;
+    background-color: #cfe7e7;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-family: Cambria, Cochin, Georgia, Times, 'Times New Roman', serif;
+    font-size: 100px;
+    font-weight: 800;
+}
+
+.register_success_footer{
+    display: flex;
+    justify-content: space-evenly;
+    margin: 10px;
+    padding: 25px;
+    font-size: 20px;
+}
+
+.login_link_footer:hover, .products_link_footer:hover{
+    font-size: 26px;
+}
+
+.texto_libre{
+    font-size: 18px;
+    padding: 5px;
+    margin: 20px 0px;
+    font-family:'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana, sans-serif; 
+}
+
+.h3_title{
+    font-size: 22px;
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
+}
