@@ -74,7 +74,7 @@ export class ViewUserController {
             })
             
         } catch (error) {
-            logger.error(error);
+            logger.error("Error al intentar obtener la lista de usuarios: ", error);
             res.render("Error al intentar obtener la lista de usuarios!");
             return;
         }
@@ -89,19 +89,28 @@ export class ViewProductController {
     realTimeProducts = async (req, res) => {
 
         try {
+            if(!req.user) {
+                return res.redirect('/login')
+            }
+
             const products = await this.viewsRouterService.get()
-            const productsStringIds = products.docs.map(product => {
+            // logger.debug(`contenido de products: ${products}`)
+
+            const productsStringIds = products.map(product => {
                 const productCopy = { ...product };
                 productCopy._id = product._id.toString();
                 return productCopy;
             });
 
+            const username = req.user.username
+
             res.render('realTimeProducts', {
                 productos: productsStringIds,
+                username,
                 style: 'index.css'
             })
         } catch (error) {
-            logger.error(error);
+            logger.error("Error al intentar obtener la lista de productos en tiempo real: ", error);
             res.render("Error al intentar obtener la lista de productos!");
             return;
         }
@@ -117,7 +126,7 @@ export class ViewProductController {
                 style: 'index.css'
             })
         } catch (error) {
-            logger.error(error);
+            logger.error("Error al intentar obtener la lista de productos actualizados: ", error);
             res.render("Error al intentar obtener la lista de productos!");
             return;
         }
@@ -151,7 +160,7 @@ export class ViewProductController {
             })
             
         } catch (error) {
-            logger.error(error);
+            logger.error("Error al intentar obtener la lista de productos: ", error);
             res.render("Error al intentar obtener la lista de productos!");
             return;
         }
@@ -165,7 +174,7 @@ export class ViewProductController {
                 style: 'index.css'
             })
         } catch (error) {
-            logger.error(error);
+            logger.error("Error al intentar obtener la lista de productos!", error);
             res.render("Error al intentar obtener la lista de productos!");
             return;
         }

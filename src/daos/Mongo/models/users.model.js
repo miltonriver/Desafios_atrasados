@@ -28,7 +28,7 @@ const userSchema = new Schema({
     },
     phone_number: {
         type: Number,
-        default: 111111111
+        default: 1111111111
     },
     age: Number,
     cartId: {

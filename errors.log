@@ -116,3 +116,22 @@ error: Producto con ID 65e67376e58a85a3f88ad780 no se encuentra en el carrito.
 error: Producto con ID 65e67376e58a85a3f88ad780 no se encuentra en el carrito.
 error: Producto con ID 65b06681287939a370f000fb no se encuentra en el carrito.
 error: Error al intentar eliminar el carrito:
+error: undefined
+error: undefined
+error: undefined
+error: undefined
+error: undefined
+error: undefined
+error: undefined
+error: undefined
+error: undefined
+error: las credenciales no coinciden, no se puede iniciar sesión
+error: las credenciales no coinciden, no se puede iniciar sesión
+error: Error en la creación del usuario: E11000 duplicate key error collection: ecommerce.users index: email_1 dup key: { email: "miltonriver66@gmail.com" }
+error: Error en la creación del usuario: E11000 duplicate key error collection: ecommerce.users index: email_1 dup key: { email: "miltonriver66@gmail.com" }
+error: undefined
+error: undefined
+error: Error al intentar obtener la lista de productos en tiempo real:  Cannot read properties of undefined (reading 'map') {"stack":"TypeError: Cannot read properties of undefined (reading 'map')\n    at realTimeProducts (file:///G:/Mis_cursos/DesafiosEntregablesBackEnd/Desafios_atrasados/src/controllers/views.router.controller.js:93:53)\n    at processTicksAndRejections (node:internal/process/task_queues:95:5)"}
+error: Error al intentar obtener la lista de productos en tiempo real:  Cannot read properties of undefined (reading 'map') {"stack":"TypeError: Cannot read properties of undefined (reading 'map')\n    at realTimeProducts (file:///G:/Mis_cursos/DesafiosEntregablesBackEnd/Desafios_atrasados/src/controllers/views.router.controller.js:94:53)\n    at processTicksAndRejections (node:internal/process/task_queues:95:5)"}
+error: Error al intentar obtener la lista de productos en tiempo real:  Cannot read properties of undefined (reading 'map') {"stack":"TypeError: Cannot read properties of undefined (reading 'map')\n    at realTimeProducts (file:///G:/Mis_cursos/DesafiosEntregablesBackEnd/Desafios_atrasados/src/controllers/views.router.controller.js:95:53)\n    at processTicksAndRejections (node:internal/process/task_queues:95:5)"}
+error: Error al intentar obtener la lista de productos en tiempo real:  Cannot access 'productsStringIds' before initialization {"stack":"ReferenceError: Cannot access 'productsStringIds' before initialization\n    at file:///G:/Mis_cursos/DesafiosEntregablesBackEnd/Desafios_atrasados/src/controllers/views.router.controller.js:97:78\n    at Array.map (<anonymous>)\n    at realTimeProducts (file:///G:/Mis_cursos/DesafiosEntregablesBackEnd/Desafios_atrasados/src/controllers/views.router.controller.js:94:48)\n    at processTicksAndRejections (node:internal/process/task_queues:95:5)"}

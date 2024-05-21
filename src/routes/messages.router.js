@@ -13,7 +13,7 @@ messagesRouter.get('/', async (req, res) => {
             result: messages
         })
     } catch (error) {
-        logger.error(error)
+        logger.error('Error al obtener los mensajes: ', error)
         return error
     }
 })
@@ -34,7 +34,7 @@ messagesRouter.post('/', async (req, res) => {
         })
         
     } catch (error) {
-        logger.error(error)
+        logger.error('Error en el router de mensajes: ', error)
         return error
     }
 })
@@ -63,7 +63,7 @@ messagesRouter.put('/:mid', async (req, res) => {
             result: result
         })        
     } catch (error) {
-        logger.error(error)
+        logger.error('Error al actualizar los mensajes:', error)
         return error
     }
 })

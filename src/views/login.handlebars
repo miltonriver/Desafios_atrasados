@@ -5,7 +5,7 @@
         <input type="text" name="username" placeholder="Ingrese su nombre de usuario" class="input_register_form">
         <label for="password" class="field_register_form">Contraseña</label>
         <div class="container">
-            <input type="password" name="password" placeholder="Ingrese su contraseña" class="input_register_form" id="pass">
+            <input type="password" name="password" placeholder="Ingrese su contraseña" class="input_register_form" id="pass" autocomplete="current-password">
             <i class='icon_show bx bx-show'></i>
         </div>
         <h4 class="h4_password"><a href="/api/sessions/restartPassword">¿Olvidó su contraseña?</a></h4>
@@ -16,4 +16,5 @@
 </main>
 
 <script src="/socket.io/socket.io.js"></script>
-<script src="/js/index.js"></script>
+<script type="module" src="/js/index.js"></script>
+<script type="module" src="/js/indexSimple.js"></script>

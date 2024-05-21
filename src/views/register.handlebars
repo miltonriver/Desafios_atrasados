@@ -10,7 +10,10 @@
         <label for="email" class="field_register_form">Email</label>
         <input type="text" name="email" placeholder="Ingrese su email" class="input_register_form">
         <label for="password" class="field_register_form">Contraseña</label>
-        <input type="text" name="password" placeholder="Ingrese su contraseña" class="input_register_form">
+        <div class="container">
+            <input type="password" name="password" placeholder="Ingrese su contraseña" class="input_register_form" id="pass">
+            <i class='icon_show bx bx-show'></i>
+        </div>
         <label for="phone_number" class="field_register_form">Teléfono</label>
         <input type="number" name="phone_number" placeholder="Ingrese su número telefónico" class="input_register_form"><br><br>
         <button class="delete_button">
@@ -18,3 +21,5 @@
         </button>
     </form>
 </main>
+
+<script type="module" src="/js/indexSimple.js"></script>

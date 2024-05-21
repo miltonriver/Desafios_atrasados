@@ -1,8 +1,9 @@
 // import UserDaoMongo from "../daos/Mongo/userDaoMongo.js";
-import DAOFactory from "../daos/factory.js";
+// import DAOFactory from "../daos/factory.js";
 // import UserDto from "../dto/userDto.js";
 import { userService } from "../services/index.js";
 import { logger } from "../utils/logger.js";
+import { createHash } from "../utils/hashBcrypt.js";
 
 class UserController {
     constructor(){
@@ -31,7 +32,7 @@ class UserController {
                 result: user
             })
         } catch (error) {
-            logger.error(error.message)
+            logger.error('Error al buscar el usuario: ', error.message)
             logger.info("No se puede encontrar el usuario por un error desconocido")
         }
     }
@@ -44,7 +45,7 @@ class UserController {
                 last_name,
                 email,
                 username,
-                password,
+                password: createHash(password),
                 age,
                 phone_number
             }
@@ -58,7 +59,7 @@ class UserController {
             })
             logger.warning(`El usuario ${first_name} ${last_name} ha sido creado con éxito`)
         } catch (error) {
-            logger.error(error)
+            logger.error('Error al crear el usuario: ', error)
         }
     }
     
@@ -78,30 +79,6 @@ class UserController {
             logger.warning("No se puede actualizar por un error desconocido")
         }
     }
-    
-    // deleteUser = async (req, res) => {
-    //     try {
-    //         const { uid } = req.params
-    //         const userToDelete = await this.userService.getUser(uid)
-    //         logger.info(userToDelete)
-
-    //         if (!userToDelete) {
-    //             logger.warning(`El usuario de id:${uid} no existe en la base de datos`)
-    //             return res.status(404).send({
-    //                 status: 'error',
-    //                 message: 'El usuario seleccionado no existe'
-    //             });
-    //         }
-
-    //         this.userService.deleteUser({ _id: uid })
-    //         res.status(200).send({
-    //             status: 'success',
-    //             message: `El usuario seleccionado ha sido eliminado exitosamente`
-    //         })
-    //     } catch (error) {
-    //         logger.error(`Hay un problema al intentar eliminar el usuario seleccionado ${error.message}`)
-    //     }
-    // }
 
     deleteUser = async (req, res) => {
         try {

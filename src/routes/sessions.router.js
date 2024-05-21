@@ -13,14 +13,14 @@ const sessionController = new SessionController()
 
 sessionsRouter.post('/register', sessionController.registerUser)
 sessionsRouter.post('/login', sessionController.loginUser)
-sessionsRouter.get('/failregister', sessionController.failRegister)
-sessionsRouter.get('/logout', sessionController.logoutUser)
-sessionsRouter.get('/faillogin', sessionController.failLogin)
-sessionsRouter.get('/github', passport.authenticate('github', {scope:['user:login']}), sessionController.githubLogin)
-sessionsRouter.get('/githubcallback', passport.authenticate('github', {failureRedirect: '/api/sessions/loginpassport'}), sessionController.githubCallback)
-sessionsRouter.get('/current', authTokenMiddleware, sessionController.tokenMiddleware)
+sessionsRouter.get ('/failregister', sessionController.failRegister)
+sessionsRouter.get ('/logout', sessionController.logoutUser)
+sessionsRouter.get ('/faillogin', sessionController.failLogin)
+sessionsRouter.get ('/github', passport.authenticate('github', {scope:['user:login']}), sessionController.githubLogin)
+sessionsRouter.get ('/githubcallback', passport.authenticate('github', {failureRedirect: '/api/sessions/loginpassport'}), sessionController.githubCallback)
+sessionsRouter.get ('/current', authTokenMiddleware, sessionController.tokenMiddleware)
 sessionsRouter.post('/registerpassport', passport.authenticate('registerpassport', { failureRedirect: '/api/sessions/failregister' }), sessionController.registerPassport)
 sessionsRouter.post('/loginpassport', passport.authenticate('loginpassport', { failureRedirect: '/api/sessions/faillogin' }), sessionController.loginPassport)
-sessionsRouter.get('/restartPassword', sessionController.restartPassword)
+sessionsRouter.get ('/restartPassword', sessionController.restartPassword)//completar
 
 export default sessionsRouter

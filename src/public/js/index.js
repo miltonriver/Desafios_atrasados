@@ -75,20 +75,26 @@ socket.on('productsList', data => {
 })
 
 //botón para ocultar/mostrar contraseña en el login
-const pass = document.getElementById("pass")
-const icon = document.querySelector(".bx")
+// document.addEventListener("DOMContentLoaded", () => {
+//     const pass = document.getElementById("pass")
+// const icon = document.querySelector(".bx")
+// console.log(document.getElementById("pass"));
+// console.log(document.querySelector(".bx"));
 
-icon.addEventListener("click", e => {
-    if (pass.type === "password") {
-        pass.type = "text";
-        icon.classList.remove('bx-show');
-        icon.classList.add('bxs-hide')
-    } else {
-        pass.type = "password"
-        icon.classList.add('bx-show');
-        icon.classList.remove('bxs-hide')
-    }
-})
+//     icon.addEventListener("click", e => {
+//         console.log("Icon clicked")
+//         if (pass.type === "password") {
+//             pass.type = "text";
+//             icon.classList.remove('bx-show');
+//             icon.classList.add('bxs-hide')
+//         } else {
+//             pass.type = "password"
+//             icon.classList.add('bx-show');
+//             icon.classList.remove('bxs-hide')
+//         }
+//     })
+// })
+
 
 //Modal para ingresar el mail 
 Swal.fire({
@@ -124,11 +130,11 @@ socket.on('messageLogs', data => {
     logger.info(mensajes)
 })
 
-/* fetch(url, {
-    method: "POST",
-    headers: {
-        "Content-Type": "application/json",
-        "Authorization": "Bearer dsadiuhvsdfhsod/dsajoiivndsfi"
-    },
-    body: JSON.stringify({user: user})
-}) */
+// fetch(url, {
+//     method: "POST",
+//     headers: {
+//         "Content-Type": "application/json",
+//         "Authorization": "Bearer dsadiuhvsdfhsod/dsajoiivndsfi"
+//     },
+//     body: JSON.stringify({user: user})
+// })

@@ -7,20 +7,20 @@ import { Server } from "socket.io";
 import viewsRouter from "./routes/views.router.js"
 import productsModel from "./daos/Mongo/models/products.model.js";
 import messagesModel from "./daos/Mongo/models/messages.model.js";
-import session from "express-session";
-// import FileStore  from "session-file-store";
 import MongoStore from "connect-mongo";
+import session from "express-session";
 import passport from "passport";
 import initializePassport from "./config/passport.config.js";
 import dotenv from "dotenv";
 import handlerError from "./middleware/errors/index.js";
 import addLogger, { logger }  from "./utils/logger.js";
+import { configObject } from "./config/connectDB.js";
 
 
 dotenv.config()
 
 const app = express()
-const PORT = 8080
+const PORT = configObject.port
 
 const hbs = handlebars.create({
     helpers: {
@@ -30,20 +30,13 @@ const hbs = handlebars.create({
     }
 })
 
-// const fileStore = FileStore(session)
-
 app.use(express.static(__dirname+'/public'));
 app.use(express.json());
 app.use(express.urlencoded({ extends: true}));
 // app.use(logger('dev'));
-app.use(session({
-    // store: new fileStore({
-    //     path: './sessions',
-    //     ttl: 100,
-    //     retries: 0
-    // }), --> Para configurar la estrategia aplicando fileStore
+app.use(session({//Se deja de usar al usar jsonwebtoken
     store: MongoStore.create({
-        mongoUrl: "mongodb+srv://miltonriver66:ysNah4318GtwLf68@cluster0.ses5lly.mongodb.net/ecommerce?retryWrites=true&w=majority",
+        mongoUrl: configObject.mongo_url,
         mongoOptions: {
             useNewUrlParser: true,
             useUnifiedTopology: true
@@ -55,13 +48,11 @@ app.use(session({
     saveUninitialized: false
 }))
 
-
 initializePassport();
 app.use(passport.initialize());
-app.use(passport.session());
+app.use(passport.session());//Debo retirarlo al usar jsonwebtoken
 
 app.use(addLogger)
-
 
 app.use((req, res, next) => {
     req.logger.info("Datos del cuerpo:", req.body);

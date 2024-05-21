@@ -1,5 +1,6 @@
 // import UserDaoMongo from "../daos/Mongo/userDaoMongo.js";
 import DAOFactory from "../daos/factory.js";
+import { userService } from "../services/index.js";
 import { createHash, isValidPassword } from "../utils/hashBcrypt.js";
 import generateToken from "../utils/jsonwebtoken.js";
 import productsModel from "../daos/Mongo/models/products.model.js";
@@ -27,7 +28,7 @@ class SessionController {
                 password: createHash(password),
                 phone_number
             }
-            const result = await this.sessionService.create(newUser)
+            const result = await userService.createUser(newUser)
 
             const token = generateToken({
                 fullname: fullname,
@@ -63,6 +64,14 @@ class SessionController {
         try {
             const { username, password } = req.body
             const user = await this.sessionService.getBy(username)
+            logger.debug(`usuario de la base de datos: ${user.password}`)
+            
+            if (!user) {
+                return res.send({
+                    status: "error",
+                    error: "El usuario no existe o no está registrado"
+                })
+            }
 
             if (user.email === "adminCoder@coder.com") {
                 user.role = "admin",
@@ -72,21 +81,19 @@ class SessionController {
                     })
             }
 
-            if (!user) {
-                return res.send({
-                    status: "error",
-                    error: "El usuario no existe o no está registrado"
-                })
-            }
 
-            if (!isValidPassword(password, user.password)) return res.status(401).send('no coinciden las credenciales')
+            if (!isValidPassword(password, user.password)){
+                logger.error('las credenciales no coinciden, no se puede iniciar sesión')
+                return res.status(401).send('las credenciales no coinciden')
+            } 
 
             const token = generateToken({
                 fullname: `${user.first_name} ${user.last_name}`,
                 username: username,
                 id: user._id
             })
-            logger.info("token: ", token)
+            logger.debug(`contenido de token: ${token}`)
+            logger.info(`Sesión iniciada correctamente, bienvenido usuario ${username}`)
 
             const products = await productsModel.find({})
             res.render('productosActualizados', {//hacer un redirect a views.router
@@ -96,7 +103,7 @@ class SessionController {
             })
 
         } catch (error) {
-            logger.error(error)
+            logger.error('Error al intentar loguearse: ', error.messsage)
             res.send({
                 status: "error",
                 error: error.message,

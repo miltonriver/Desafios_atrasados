@@ -6,7 +6,8 @@ const generateToken = (user) => jwt.sign(user, private_key, {expiresIn: "24h"})
 
 export const authTokenMiddleware = (req, res, next) => {
     const authHeader = req.headers['authorization']
-    logger.info(authHeader)
+    // logger.debug(` Contenido de authHeader ${authHeader}`)
+    logger.debug(`Contenido de authHeader: ${JSON.stringify(authHeader, null, 2)}`)
 
     if(!authHeader) return res.status(401).send({status: "error", message: "token invalid"})
 

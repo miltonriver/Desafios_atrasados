@@ -4,14 +4,16 @@ import UserDaoMongo from "../daos/Mongo/userDaoMongo.js";
 import { createHash, isValidPassword } from "../utils/hashBcrypt.js";
 import GithubStrategy from "passport-github2";
 import { logger } from "../utils/logger.js";
+import { configObject } from "./connectDB.js";
 
 const LocalStrategy = local.Strategy
 const userModel = new UserDaoMongo()
 
 const initializePassport = () => {
+    logger.debug('Inicializando Passport')
+
     passport.use('registerpassport', new LocalStrategy({
         passReqToCallback: true, //para acceder al objeto req
-        // usernameField: 'username'
     }, async (req, username, password, done) => {
         const { first_name, last_name, email, phone_number } = req.body
         try {
@@ -19,40 +21,39 @@ const initializePassport = () => {
 
             if (user) return done(null, false)
 
+            const newphoneNumber = phone_number || 1111111111
+
             let newUser = {
                 first_name,
                 last_name,
                 username,
                 email,
                 password: createHash(password),
-                phone_number
+                phone_number: newphoneNumber
             }
-
+            
             let result = await userModel.create(newUser)
 
             return done(null, result)
         } catch (error) {
+            logger.error(`Error en la creación del usuario: ${error.message}`)
             return done(error)
         }
     }))
+
+    logger.debug('Estrategia registerpassport configurada')
 
     passport.use('loginpassport', new LocalStrategy({
         // usernameField: 'username'
     }, async(username, password, done) => {
         try {
             const user = await userModel.getBy(username)
+            logger.debug(`Contenido de user: ${user}`)
+
             if(!user) {
                 logger.info("usuario no encontrado")
                 return done(null, false)
             }
-
-            /* if (user.username === "coderhouse") {
-                user.role = "admin",
-                    res.render('adminPage', {
-                        username: username,
-                        style: 'index.css'
-                    })
-            } */
             
             if(!isValidPassword(password, user.password)) return done(null, false)
             return done(null, user)
@@ -70,9 +71,9 @@ const initializePassport = () => {
     })
 
     passport.use("github", new GithubStrategy({
-        clientID: "Iv1.c2c12058150226c2",
-        clientSecret: "12635beb449619a17e5b8a3d75707273a4c13933",
-        callbackURL: "http://localhost:8080/api/sessions/githubcallback"
+        clientID:     configObject.github_clientID,
+        clientSecret: configObject.github_clientSecret,
+        callbackURL:  configObject.github_callbackURL
     }, async (accessToken, refreshToken, profile, done) => {
         logger.info("Estrategia Github configurada correctamente")
         try {

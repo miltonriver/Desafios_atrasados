@@ -1,4 +1,3 @@
-// import { connect } from "mongoose";
 import MongoSingleton from "./singleton.js";
 import dotenv from "dotenv";
 import program from "../utils/commander.js";
@@ -13,15 +12,18 @@ dotenv.config({
 })
 
 export const configObject = {
-    port:            process.env.PORT || 8000,
-    mongo_url:       process.env.MONGO_URL,
-    jwt_private_Key: process.env.JWT_PRIVATE_KEY,
-    persistence:     process.env.PERSISTENCE,
-    gmail_user:      process.env.GMAIL_USER_APP,
-    gmail_password:  process.env.GMAIL_PASS_APP,
-    twilio_sid:      process.env.TWILIO_ACCOUNT_SID,
-    twilio_token:    process.env.TWILIO_AUTH_TOKEN,
-    twilio_phone:    process.env.TWILIO_PHONE_NUMBER
+    port:                process.env.PORT || 8000,
+    mongo_url:           process.env.MONGO_URL,
+    jwt_private_Key:     process.env.JWT_PRIVATE_KEY,
+    persistence:         process.env.PERSISTENCE,
+    gmail_user:          process.env.GMAIL_USER_APP,
+    gmail_password:      process.env.GMAIL_PASS_APP,
+    twilio_sid:          process.env.TWILIO_ACCOUNT_SID,
+    twilio_token:        process.env.TWILIO_AUTH_TOKEN,
+    twilio_phone:        process.env.TWILIO_PHONE_NUMBER,
+    github_clientID:     process.env.GITHUB_CLIENTID,
+    github_clientSecret: process.env.GITHUB_CLIENTSECRET,
+    github_callbackURL:  process.env.GITHUB_CALLBACKURL
 }
 
 const connectDB = async () => {
@@ -31,7 +33,7 @@ const connectDB = async () => {
         await MongoSingleton.getInstance(process.env.MONGO_URL)
         logger.info(`Trabajando en el entorno de ${process.env.MODO}`)
     } catch (error) {
-        logger.error(error)
+        logger.error(error.message)
     }
 }
 console.log("Persistence type:", configObject.persistence);
