@@ -39,7 +39,7 @@ class UserController {
     
     createUser = async (req, res) => {
         try {
-            const { first_name, last_name, email, username, password, age, phone_number } = req.body
+            const { first_name, last_name, email, username, password, age, phone_number, role } = req.body
             const newUser = {
                 first_name,
                 last_name,
@@ -47,7 +47,8 @@ class UserController {
                 username,
                 password: createHash(password),
                 age,
-                phone_number
+                phone_number,
+                role
             }
     
             const result =await this.userService.createUser(newUser)

@@ -21,7 +21,7 @@ const initializePassport = () => {
 
             if (user) return done(null, false)
 
-            const newphoneNumber = phone_number || 1111111111
+            const newphoneNumber = phone_number && phone_number.trim() !== '' ? phone_number : 1111111111
 
             let newUser = {
                 first_name,

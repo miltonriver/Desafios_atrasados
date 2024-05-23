@@ -15,6 +15,7 @@ import dotenv from "dotenv";
 import handlerError from "./middleware/errors/index.js";
 import addLogger, { logger }  from "./utils/logger.js";
 import { configObject } from "./config/connectDB.js";
+import cookieParser from "cookie-parser";
 
 
 dotenv.config()
@@ -33,6 +34,7 @@ const hbs = handlebars.create({
 app.use(express.static(__dirname+'/public'));
 app.use(express.json());
 app.use(express.urlencoded({ extends: true}));
+app.use(cookieParser())
 // app.use(logger('dev'));
 app.use(session({//Se deja de usar al usar jsonwebtoken
     store: MongoStore.create({

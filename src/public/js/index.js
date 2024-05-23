@@ -138,3 +138,11 @@ socket.on('messageLogs', data => {
 //     },
 //     body: JSON.stringify({user: user})
 // })
+// fetch(url, {
+//     method: "POST",
+//     headers: {
+//         "Content-Type": "application/json",
+//         "Authorization": `Bearer ${sessionStorage.getItem('token')}`//usando un token guardado en el sessionStorage o también podemos guardarlo en el localStorage
+//     },
+//     body: JSON.stringify({user: user})
+// })

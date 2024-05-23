@@ -18,7 +18,7 @@ Content-Type: application/json
 }
 
 ###
-POST http://localhost:8080/api/sessions/login
+POST http://localhost:8000/api/sessions/login
 Content-Type: application/json
 
 {
@@ -27,8 +27,8 @@ Content-Type: application/json
 }
 
 ###
-GET http://localhost:80/api/sessions/current
-authorization: BEARER eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmdWxsbmFtZSI6Im1pbHRvbiBwZXRpdGZvdXIiLCJ1c2VybmFtZSI6Im1pbHRvbnJpdmVyIiwiaWQiOiI2NWQ2OTM5YWExOWIzY2UxYmRmZmQxZWIiLCJpYXQiOjE3MDg2MzAzOTYsImV4cCI6MTcwODcxNjc5Nn0.3oHx4tNY22CufbQNUbOiltB7sfMOakNqcgwxF_AgIQE
+GET http://localhost:8000/api/sessions/current
+authorization: BEARER eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJmdWxsbmFtZSI6IkNhbWkgcGV0aXRmb3VyIiwidXNlcm5hbWUiOiJjYW1pMjAxNyIsImlkIjoiNjY0ZDc3NDIwYWY5NWIxMDQ3ZmZlMWNiIiwiaWF0IjoxNzE2MzU1MTU1LCJleHAiOjE3MTY0NDE1NTV9.MiwQr3PTeLHZwhUFBxG-5h4qEpCOoQkPzCEcvr04HpM
 
 ###
 POST http://localhost:8080/api/products

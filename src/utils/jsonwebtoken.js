@@ -1,13 +1,14 @@
 import jwt from "jsonwebtoken";
+import { configObject } from "../config/connectDB.js";
 import { logger } from "./logger.js";
 
-const private_key = "palabarasecretaparatoken"
+const private_key = configObject.jwt_private_Key
 const generateToken = (user) => jwt.sign(user, private_key, {expiresIn: "24h"})
 
 export const authTokenMiddleware = (req, res, next) => {
     const authHeader = req.headers['authorization']
-    // logger.debug(` Contenido de authHeader ${authHeader}`)
-    logger.debug(`Contenido de authHeader: ${JSON.stringify(authHeader, null, 2)}`)
+    logger.debug(` Contenido de authHeader ${authHeader}`)
+    // logger.debug(`Contenido de authHeader: ${JSON.stringify(authHeader, null, 2)}`)
 
     if(!authHeader) return res.status(401).send({status: "error", message: "token invalid"})
 

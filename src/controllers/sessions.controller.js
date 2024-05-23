@@ -20,30 +20,33 @@ class SessionController {
                 return res.send("Quedan campos sin llenar, por favor ingrese los campos que son obligatorios")
             }
 
+            const phoneNumber = phone_number && phone_number.trim() !== '' ? phone_number : 1111111111
+
             const newUser = {
                 first_name,
                 last_name,
                 username,
                 email,
                 password: createHash(password),
-                phone_number
+                phone_number: phoneNumber
             }
             const result = await userService.createUser(newUser)
 
             const token = generateToken({
                 fullname: fullname,
                 username: username,
-                // id: result._id
+                role: result.role,
+                id: result._id
             })
 
-            logger.info('token: ', token)
+            logger.info(`Token: ${token}` )
 
-            /* res.status(200).send({
-                username: username,
-                status: "success",
-                usersCreate: result,
-                token
-            }) */
+            // res.status(200).send({
+            //     username: username,
+            //     status: "success",
+            //     usersCreate: result,
+            //     token
+            // })
 
             res.render('registerSuccess', {
                 username: username,
@@ -64,7 +67,7 @@ class SessionController {
         try {
             const { username, password } = req.body
             const user = await this.sessionService.getBy(username)
-            logger.debug(`usuario de la base de datos: ${user.password}`)
+            // logger.debug(`usuario de la base de datos: ${user.password}`)
             
             if (!user) {
                 return res.send({
@@ -73,14 +76,13 @@ class SessionController {
                 })
             }
 
-            if (user.email === "adminCoder@coder.com") {
-                user.role = "admin",
-                    res.render('adminPage', {
-                        username: username,
-                        style: 'index.css'
-                    })
-            }
-
+            // if (user.email === "adminCoder@coder.com") {
+            //     user.role = "admin",
+            //         res.render('adminPage', {
+            //             username: username,
+            //             style: 'index.css'
+            //         })
+            // }
 
             if (!isValidPassword(password, user.password)){
                 logger.error('las credenciales no coinciden, no se puede iniciar sesión')
@@ -90,15 +92,26 @@ class SessionController {
             const token = generateToken({
                 fullname: `${user.first_name} ${user.last_name}`,
                 username: username,
+                role: user.role,
                 id: user._id
             })
             logger.debug(`contenido de token: ${token}`)
             logger.info(`Sesión iniciada correctamente, bienvenido usuario ${username}`)
 
+            res.cookie('cookieToken', token, {
+                maxAge: 60 * 60 * 1000 * 24,
+                httpOnly: true
+            }).send({
+                status: 'success',
+                usersCreate: 'login success',
+                token
+            })//Necesario para mandar el token por medio de cookies al cliente funciona con Passport-jwt
+
             const products = await productsModel.find({})
             res.render('productosActualizados', {//hacer un redirect a views.router
                 username: username,
                 productos: products,
+                token: token,
                 style: 'index.css'
             })
 
