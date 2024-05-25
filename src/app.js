@@ -6,17 +6,16 @@ import __dirname, { uploader } from "./utils.js";
 import { Server } from "socket.io";
 import viewsRouter from "./routes/views.router.js"
 import productsModel from "./daos/Mongo/models/products.model.js";
-import messagesModel from "./daos/Mongo/models/messages.model.js";
-import MongoStore from "connect-mongo";
-import session from "express-session";
+// import MongoStore from "connect-mongo";
+// import session from "express-session";
+// import initializePassport from "./config/passport.config.js";
 import passport from "passport";
-import initializePassport from "./config/passport.config.js";
+import initializePassportJWT from "./config/passport.configJWT.js";
 import dotenv from "dotenv";
 import handlerError from "./middleware/errors/index.js";
 import addLogger, { logger }  from "./utils/logger.js";
 import { configObject } from "./config/connectDB.js";
 import cookieParser from "cookie-parser";
-
 
 dotenv.config()
 
@@ -36,23 +35,23 @@ app.use(express.json());
 app.use(express.urlencoded({ extends: true}));
 app.use(cookieParser())
 // app.use(logger('dev'));
-app.use(session({//Se deja de usar al usar jsonwebtoken
-    store: MongoStore.create({
-        mongoUrl: configObject.mongo_url,
-        mongoOptions: {
-            useNewUrlParser: true,
-            useUnifiedTopology: true
-        },
-        ttl: 30
-    }),
-    secret: "secretMilton",
-    resave: false,
-    saveUninitialized: false
-}))
+// app.use(session({//Se deja de usar al usar jsonwebtoken
+//     store: MongoStore.create({
+//         mongoUrl: configObject.mongo_url,
+//         mongoOptions: {
+//             useNewUrlParser: true,
+//             useUnifiedTopology: true
+//         },
+//         ttl: 30
+//     }),
+//     secret: "secretMilton",
+//     resave: false,
+//     saveUninitialized: false
+// }))
 
-initializePassport();
+initializePassportJWT();
 app.use(passport.initialize());
-app.use(passport.session());//Debo retirarlo al usar jsonwebtoken
+// app.use(passport.session());//Debo retirarlo al usar jsonwebtoken
 
 app.use(addLogger)
 
@@ -81,8 +80,6 @@ const httpServer = app.listen(PORT, (err) => {
 
 const io = new Server(httpServer)
 
-let mensajes = []
-
 io.on('connection', socket => {
     logger.info("El cliente está conectado")
 
@@ -101,34 +98,5 @@ io.on('connection', socket => {
 
     socket.on("addProductToCart", async (product) => {
         io.emit("updatedCart", product)
-    })
-
-    socket.on("message1", (data) => {
-        logger.info(data)
-    })
-
-    socket.on('message', async (data) => {
-        mensajes.push(data)
-        io.emit('messageLogs', mensajes)
-        const { email, message } = await data
-
-        const updatedMessages = await messagesModel.findOne({user: email})
-
-        if (!updatedMessages){
-            const newUserMessages = await messagesModel.create({user: email, message})
-            logger.info("Nuevo usuario creado:", newUserMessages.user)
-            return
-        }
-        let newMessage;
-        try {
-            newMessage = JSON.parse(updatedMessages.message);
-        } catch (error) {
-            newMessage = updatedMessages.message;
-        }
-
-        updatedMessages.message = message + "\n" + newMessage
-
-        const result = await updatedMessages.save()
-
     })
 })

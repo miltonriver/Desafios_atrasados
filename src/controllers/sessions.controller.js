@@ -41,14 +41,10 @@ class SessionController {
 
             logger.info(`Token: ${token}` )
 
-            // res.status(200).send({
-            //     username: username,
-            //     status: "success",
-            //     usersCreate: result,
-            //     token
-            // })
-
-            res.render('registerSuccess', {
+            res.cookie('cookieToken', token, {
+                maxAge: 60 * 60 * 1000 * 24,
+                httpOnly: true
+            }).render('registerSuccess', {
                 username: username,
                 fullname: fullname,
                 usersCreate: result,
@@ -98,22 +94,19 @@ class SessionController {
             logger.debug(`contenido de token: ${token}`)
             logger.info(`Sesión iniciada correctamente, bienvenido usuario ${username}`)
 
+            const products = await productsModel.find({})
+
             res.cookie('cookieToken', token, {
                 maxAge: 60 * 60 * 1000 * 24,
                 httpOnly: true
-            }).send({
-                status: 'success',
-                usersCreate: 'login success',
-                token
-            })//Necesario para mandar el token por medio de cookies al cliente funciona con Passport-jwt
-
-            const products = await productsModel.find({})
-            res.render('productosActualizados', {//hacer un redirect a views.router
+            }).render('productosActualizados', {//hacer un redirect a views.router
                 username: username,
                 productos: products,
                 token: token,
+                isAdmin: user.role === "admin",
                 style: 'index.css'
             })
+            //Necesario para mandar el token por medio de cookies al cliente funciona con Passport-jwt
 
         } catch (error) {
             logger.error('Error al intentar loguearse: ', error.messsage)
@@ -139,14 +132,13 @@ class SessionController {
     logoutUser = (req, res) => {
         
         try {
-            req.session.destroy(error => {
-                if (error) return res.send('Logout error')
-                res.send({
-                    status: 'success',
-                    message: 'logout ok'
-                })
+            res.clearCookie('cookieToken')
+            res.send({
+                status: 'success',
+                message: 'logout ok'
             })
         } catch (error) {
+            logger.error(`Mensaje de error: ${error.message}`)
             res.send({
                 status: "error",
                 error: error.message
@@ -167,68 +159,9 @@ class SessionController {
         }
     }
 
-    githubLogin = async (req, res) => { }
-
-    githubCallback = async (req, res) => {
-        try {
-            req.session.user = req.user
-            res.redirect('/realtimeproducts')
-
-        } catch (error) {
-            res.send({
-                status: "error",
-                error: error.message
-            })
-        }
-    }
-
     tokenMiddleware = async (req, res) => {
         try {
             res.send('<h1>Datos sensibles</h1>')
-        } catch (error) {
-            res.send({
-                status: "error",
-                error: error.message
-            })
-        }
-    }
-
-    registerPassport = async (req, res) => {
-        try {
-            const username = req.body.username || (req.user && req.user.username);
-
-            res.render('registerSuccessPassport', {
-                username: username,
-                style: "index.css"
-            })
-
-        } catch (error) {
-            res.send({
-                status: "error",
-                error: error.message
-            })
-        }
-    }
-
-    loginPassport = async (req, res) => {
-        try {
-            if (!req.user) return res.status(401).send({ status: "error", error: "credenciales inválidas" })
-
-            req.session.user = {
-                first_name: req.user.first_name,
-                last_name: req.user.last_name,
-                email: req.user.email,
-                phone_number: req.user.phone_number
-            }
-
-            const username = req.body.username || (req.user && req.user.username);
-            const products = await productsModel.find({})
-            res.render('productosActualizados', {
-                username: username,
-                productos: products,
-                style: 'index.css'
-            })
-
         } catch (error) {
             res.send({
                 status: "error",
@@ -251,6 +184,65 @@ class SessionController {
             })            
         }
     }
+
+    // githubLogin = async (req, res) => { }
+
+    // githubCallback = async (req, res) => {
+    //     try {
+    //         req.session.user = req.user
+    //         res.redirect('/realtimeproducts')
+
+    //     } catch (error) {
+    //         res.send({
+    //             status: "error",
+    //             error: error.message
+    //         })
+    //     }
+    // }
+
+    // registerPassport = async (req, res) => {
+    //     try {
+    //         const username = req.body.username || (req.user && req.user.username);
+
+    //         res.render('registerSuccessPassport', {
+    //             username: username,
+    //             style: "index.css"
+    //         })
+
+    //     } catch (error) {
+    //         res.send({
+    //             status: "error",
+    //             error: error.message
+    //         })
+    //     }
+    // }
+
+    // loginPassport = async (req, res) => {
+    //     try {
+    //         if (!req.user) return res.status(401).send({ status: "error", error: "credenciales inválidas" })
+
+    //         req.session.user = {
+    //             first_name: req.user.first_name,
+    //             last_name: req.user.last_name,
+    //             email: req.user.email,
+    //             phone_number: req.user.phone_number
+    //         }
+
+    //         const username = req.body.username || (req.user && req.user.username);
+    //         const products = await productsModel.find({})
+    //         res.render('productosActualizados', {
+    //             username: username,
+    //             productos: products,
+    //             style: 'index.css'
+    //         })
+
+    //     } catch (error) {
+    //         res.send({
+    //             status: "error",
+    //             error: error.message
+    //         })
+    //     }
+    // }
 }
 
 export default SessionController

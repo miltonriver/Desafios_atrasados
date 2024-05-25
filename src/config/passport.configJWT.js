@@ -11,12 +11,13 @@ const initializePassportJWT = () => {
         let token = null
         if(req && req.cookies){
             token = req.cookies['cookieToken']
+            console.log(token)
         }
         return token
     }
 
     passport.use('jwt', new JWTStrategy({
-        jwtFromRequest: ExtractJWT.fromExtractors({cookieExtractor}),
+        jwtFromRequest: ExtractJWT.fromExtractors([cookieExtractor]),
         secretOrKey: configObject.jwt_private_Key
     }, async (jwt_payload, done) => {
         try {

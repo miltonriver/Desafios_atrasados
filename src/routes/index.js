@@ -15,5 +15,8 @@ router.use('/api/carts', cartsRouter)
 router.use('/api/messages', messagesRouter)
 router.use('/api/sessions', sessionsRouter)
 router.use('/pruebas', pruebasRouter)
+router.get('*', (req, res) => {
+    res.send('La ruta especificada no existe')
+})
 
 export default router

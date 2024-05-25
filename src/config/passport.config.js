@@ -10,7 +10,7 @@ const LocalStrategy = local.Strategy
 const userModel = new UserDaoMongo()
 
 const initializePassport = () => {
-    logger.debug('Inicializando Passport')
+    // logger.debug('Inicializando Passport')
 
     passport.use('registerpassport', new LocalStrategy({
         passReqToCallback: true, //para acceder al objeto req
@@ -41,7 +41,7 @@ const initializePassport = () => {
         }
     }))
 
-    logger.debug('Estrategia registerpassport configurada')
+    // logger.debug('Estrategia registerpassport configurada')
 
     passport.use('loginpassport', new LocalStrategy({
         // usernameField: 'username'
