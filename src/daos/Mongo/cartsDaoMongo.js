@@ -5,8 +5,8 @@ class CartDaoMongo {
         return await cartModel.find({})
     }
 
-    async getBy(cid){
-        return await cartModel.findOne({_id: cid})
+    async getBy(filter){
+        return await cartModel.findOne(filter)
     }
 
     async create(newCart){

@@ -1,7 +1,5 @@
-// import CartDaoMongo from "../daos/Mongo/cartsDaoMongo.js";
-// import DAOFactory from "../daos/factory.js";
 import { cartService } from "../services/index.js";
-import { logger } from "../utils/logger.js";
+import { logger }      from "../utils/logger.js";
 
 class CartController {
     constructor() {
@@ -71,6 +69,7 @@ class CartController {
     createProductInCart = async (req, res) => {
         try {
             const { cid, pid } = req.params
+            const { quantity } = req.body
             const cart = await this.cartService.getCart({ _id: cid })
 
             if (cart.products.length < 0) {
@@ -82,14 +81,14 @@ class CartController {
 
             const productToAdd = {
                 product: pid,
-                quantity: 6
+                quantity: quantity
             }
 
             cart.products.push(productToAdd)
             await cart.save()
 
             res.status(200).send({
-                status: "succes",
+                status: "success",
                 message: 'Producto agregado al carrito con éxito',
                 result: cart
             })
@@ -254,6 +253,71 @@ class CartController {
                 status: 'error',
                 mesagge: 'Error interno al intentar eliminar el producto del carrito',
                 result: error
+            })
+        }
+    }
+
+    purchaseProducts    = async (req, res) => {
+        try {
+            const { cid } = req.params
+            const cart = await this.cartService.getCart(cid).populate('products.product')
+
+            if (!cart) {
+                return res.status(404).send({ status: 'error', message: 'No se puede encontrar el carrito seleccionado' })
+            }
+
+            const productsNotPurchased = []
+            const purchaseProducts = []
+
+            for (const item of cart.products) {
+                const product = await productsModel.findById(item.product._id)
+
+                if (product.stock >= item.quantity) {
+                    product.stock -= item.quantity
+                    await product.save()
+
+                    purchaseProducts.push({
+                        product: item.product._id,
+                        quantity: item.quantity,
+                        price: item.product.price
+                    });
+                } else {
+                    productsNotPurchased.push(item.product._id)
+                }
+            }
+
+            const amount = purchaseProducts.reduce((total, item) => total + (item.quantity * item.price), 0)
+
+            if (purchaseProducts.length > 0) {
+                const ticket = await ticketsModel.create({
+                    code: nanoid(),
+                    purchase_datetime: new Date(),
+                    amount,
+                    purchaser: req.user.email
+                })
+
+                cart.products = cart.products.filter(item => productsNotPurchased.includes(item.product._id));
+                await cart.save()
+
+                return res.status(200).send({
+                    status: 'success',
+                    message: 'Compra completada exitosamente',
+                    ticket,
+                    productsNotPurchased
+                })
+            } else {
+                return res.status(400).send({
+                    status: 'error',
+                    message: 'El stock del producto a comprar es insuficiente',
+                    productsNotPurchased
+                })
+            }
+        } catch (error) {
+            logger.error('Error al procesar la compra: ', error);
+            return res.status(500).send({
+                status: 'error',
+                message: 'Error en el proceso de compra',
+                error: error.message
             })
         }
     }

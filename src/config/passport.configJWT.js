@@ -1,6 +1,7 @@
 import passport from "passport";
 import passportJwt from "passport-jwt";
 import { configObject } from "./connectDB.js";
+import { logger } from "../utils/logger.js";
 
 const JWTStrategy = passportJwt.Strategy
 const ExtractJWT = passportJwt.ExtractJwt
@@ -11,7 +12,7 @@ const initializePassportJWT = () => {
         let token = null
         if(req && req.cookies){
             token = req.cookies['cookieToken']
-            console.log(token)
+            logger.debug(`Contenido de token en el middleware: ${token}`)
         }
         return token
     }

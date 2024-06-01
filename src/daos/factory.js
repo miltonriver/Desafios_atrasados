@@ -1,20 +1,21 @@
 import { configObject } from "../config/connectDB.js";
-import connectDB from "../config/connectDB.js";
+import connectDB        from "../config/connectDB.js";
 
 let UserDao
 let ProductDao
 let CartDao
+let TicketDao
 
 try {
     switch (configObject.persistence) {
         case 'FILE':
-            const UserDaoFile = (await import('./FileSytem/userDaoFile.js')).default
+            const UserDaoFile    = (await import('./FileSytem/userDaoFile.js')).default
             UserDao = UserDaoFile
     
             const ProductDaoFile = (await import('./FileSytem/productDaoFile.js')).default
             ProductDao = ProductDaoFile
     
-            const CartDaoFile = (await import('./FileSytem/cartDaoFile.js')).default
+            const CartDaoFile    = (await import('./FileSytem/cartDaoFile.js')).default
             CartDao = CartDaoFile
     
             break;
@@ -25,24 +26,25 @@ try {
         default:
             connectDB()
     
-            const UserDaoMongo = (await import('./Mongo/userDaoMongo.js')).default
-            UserDao = UserDaoMongo
+            const UserDaoMongo    = (await import('./Mongo/userDaoMongo.js')).default
+            UserDao    = UserDaoMongo
     
             const ProductDaoMongo = (await import('./Mongo/productsDaoMongo.js')).default
             ProductDao = ProductDaoMongo
     
-            const CartDaoMongo = (await import('./Mongo/cartsDaoMongo.js')).default
-            CartDao = CartDaoMongo
+            const CartDaoMongo   = (await import('./Mongo/cartsDaoMongo.js')).default
+            CartDao    = CartDaoMongo
+
+            const TicketDaoMongo = (await import('./Mongo/ticketDaoMongo.js')).default
+            TicketDao  = TicketDaoMongo
     
             break;
     }
 } catch (error) {
     console.error('Error al inicializar los DAO:', error);
 }
-
-
 class DAOFactory {
-    static getUserDao() {
+    static getUserDao()    {
         return new UserDao()
     }
 
@@ -50,8 +52,12 @@ class DAOFactory {
         return new ProductDao()
     }
 
-    static getCartDao() {
+    static getCartDao()    {
         return new CartDao()
+    }
+
+    static getTicketDao()  {
+        return new TicketDao()
     }
 }
 

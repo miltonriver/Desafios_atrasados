@@ -88,6 +88,14 @@ li{
     color:blueviolet;
 }
 
+.add_button{
+    border-radius: 5px;
+    list-style: none;
+    background-color: orange;
+    font-weight: bolder;
+    color:blueviolet;
+}
+
 #submit_button:hover, #add_button_to_cart:hover{
     font-size: 16px;
     font-weight: bolder;
@@ -102,10 +110,35 @@ li{
     margin-top: 20px;
 }
 
+.span_bar{
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    justify-content: space-between;
+    height: 50px;
+    padding: 10px 0;
+}
+
 #chatbox{
     border: solid blue 3px;
-    width: 200px;
+    width: 300px;
     height: 20px;
+}
+
+.chat_link{
+    border: solid red 2px;
+    border-radius: 5px;
+    text-align: center;
+    padding: 10px;
+    margin: 50px auto;
+    display: flex;
+    justify-content: space-around;
+    font-size:large;
+    max-width: 45vw;
+}
+
+.chat_link:hover{
+    font-size: larger;
 }
 
 .listCollection{
@@ -180,9 +213,33 @@ li{
 .icon_cart{
     font-size: 25px;
     cursor: pointer;
-    color: blueviolet;
+    color: blue;
     padding: 5px;
     margin: 0 10px;
+}
+
+.icon_cart:hover{
+    font-size: 30px;
+    color: blueviolet;
+}
+
+.carrito_vacio{
+    display:flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+.cart_legend{
+    font-size: 25px;
+    font-weight: 800;
+    color: blueviolet;
+}
+
+.solid_line{
+    color: green;
+    border: solid;
+    width: 100%;
+    background-color: azure;
 }
 
 .register_success_container{

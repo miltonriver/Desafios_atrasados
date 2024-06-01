@@ -1,10 +1,15 @@
-// import UserDaoMongo from "../daos/Mongo/userDaoMongo.js";
-import DAOFactory from "../daos/factory.js";
-import { userService } from "../services/index.js";
-import { createHash, isValidPassword } from "../utils/hashBcrypt.js";
-import generateToken from "../utils/jsonwebtoken.js";
-import productsModel from "../daos/Mongo/models/products.model.js";
-import { logger } from "../utils/logger.js";
+import DAOFactory         from "../daos/factory.js";
+import { userService, 
+        cartService }     from "../services/index.js";
+import { createHash, 
+        isValidPassword } from "../utils/hashBcrypt.js";
+import generateToken      from "../utils/jsonwebtoken.js";
+import productsModel      from "../daos/Mongo/models/products.model.js";
+import { logger }         from "../utils/logger.js";
+import UserDto            from "../dto/userDto.js";
+import CartDaoMongo from "../daos/Mongo/cartsDaoMongo.js";
+
+const cartDao = new CartDaoMongo()
 
 class SessionController {
     constructor() {
@@ -31,12 +36,23 @@ class SessionController {
                 phone_number: phoneNumber
             }
             const result = await userService.createUser(newUser)
+            logger.debug(`Usuario creado: ${JSON.stringify(result)}`);
+            
+            const newCart = { products: [] }
+            const newCartCreated = await cartService.createCart(newCart)
+            logger.debug(`Contenido del nuevo carro creado: ${JSON.stringify(newCartCreated)}`)
+
+            result.cartId = newCartCreated._id
+            logger.debug(`Asignación de cartId al usuario: ${result.cartId}`)
+            await result.save()
+            logger.debug(`Usuario actualizado con cartId: ${JSON.stringify(result)}`)
 
             const token = generateToken({
                 fullname: fullname,
                 username: username,
-                role: result.role,
-                id: result._id
+                role:     result.role,
+                cartId:   result.cartId,
+                id:       result._id
             })
 
             logger.info(`Token: ${token}` )
@@ -44,7 +60,7 @@ class SessionController {
             res.cookie('cookieToken', token, {
                 maxAge: 60 * 60 * 1000 * 24,
                 httpOnly: true
-            }).render('registerSuccess', {
+            }).render('registerSuccess', {//Modificar esta ruta para poder agregarla al router de vistas
                 username: username,
                 fullname: fullname,
                 usersCreate: result,
@@ -52,6 +68,7 @@ class SessionController {
             })
 
         } catch (error) {
+            logger.error(`Error desconocido al crear usuario: ${error.message}`),
             res.send({
                 status: "error",
                 error: error.message
@@ -63,7 +80,6 @@ class SessionController {
         try {
             const { username, password } = req.body
             const user = await this.sessionService.getBy(username)
-            // logger.debug(`usuario de la base de datos: ${user.password}`)
             
             if (!user) {
                 return res.send({
@@ -72,41 +88,31 @@ class SessionController {
                 })
             }
 
-            // if (user.email === "adminCoder@coder.com") {
-            //     user.role = "admin",
-            //         res.render('adminPage', {
-            //             username: username,
-            //             style: 'index.css'
-            //         })
-            // }
-
             if (!isValidPassword(password, user.password)){
                 logger.error('las credenciales no coinciden, no se puede iniciar sesión')
                 return res.status(401).send('las credenciales no coinciden')
             } 
+            const cartId = user.cartId
 
             const token = generateToken({
                 fullname: `${user.first_name} ${user.last_name}`,
                 username: username,
-                role: user.role,
-                id: user._id
+                cartId:   cartId,
+                role:     user.role,
+                id:       user._id
             })
             logger.debug(`contenido de token: ${token}`)
             logger.info(`Sesión iniciada correctamente, bienvenido usuario ${username}`)
 
-            const products = await productsModel.find({})
-
             res.cookie('cookieToken', token, {
                 maxAge: 60 * 60 * 1000 * 24,
-                httpOnly: true
-            }).render('productosActualizados', {//hacer un redirect a views.router
-                username: username,
-                productos: products,
-                token: token,
-                isAdmin: user.role === "admin",
-                style: 'index.css'
+                httpOnly: true,
+                secure: false
             })
-            //Necesario para mandar el token por medio de cookies al cliente funciona con Passport-jwt
+
+            res.json({ token, role: user.role })
+
+            // res.redirect(`/productosactualizados?username=${username}&isAdmin=${user.role === 'admin'}`)
 
         } catch (error) {
             logger.error('Error al intentar loguearse: ', error.messsage)
@@ -161,9 +167,24 @@ class SessionController {
 
     tokenMiddleware = async (req, res) => {
         try {
-            res.send('<h1>Datos sensibles</h1>')
+            const username = req.user.username
+            const user = await this.sessionService.getBy(username)
+
+            if (!user) {
+                return res.status(404).send({message: "user not found"})
+            }
+
+            const userDto = new UserDto(user)
+            logger.debug(`Contenido de userDto: ${JSON.stringify(userDto)}`)
+
+            delete userDto.password
+            delete userDto.first_name
+            delete userDto.last_name
+            delete userDto.role            
+
+            res.status(200).send(userDto)
         } catch (error) {
-            res.send({
+            res.status(500).send({
                 status: "error",
                 error: error.message
             })

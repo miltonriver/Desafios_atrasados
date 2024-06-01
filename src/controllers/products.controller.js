@@ -58,6 +58,7 @@ class ProductController {
                     code: EErrors.INVALID_TYPES_ERROR
                 })                
             }
+            
 
             const newProduct = {
                 title,

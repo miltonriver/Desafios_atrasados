@@ -1,20 +1,65 @@
 <main>
     <h1>Bienvenido Usuario!!</h1>
-    <form action="/api/sessions/login" method="POST">
+    <form id="loginForm" method="POST">
         <label for="username" class="field_register_form">Nombre de usuario</label>
-        <input type="text" name="username" placeholder="Ingrese su nombre de usuario" class="input_register_form">
+        <input type="text" name="username" id="username" placeholder="Ingrese su nombre de usuario"
+            class="input_register_form" required>
         <label for="password" class="field_register_form">Contraseña</label>
         <div class="container">
-            <input type="password" name="password" placeholder="Ingrese su contraseña" class="input_register_form" id="pass" autocomplete="current-password">
-            <i class='icon_show bx bx-show'></i>
+            <input type="password" name="password" placeholder="Ingrese su contraseña" class="input_register_form"
+                id="password" required>
+            <i class='icon_show bx bx-show' autocomplete="current-password"></i>
         </div>
         <h4 class="h4_password"><a href="/api/sessions/restartPassword">¿Olvidó su contraseña?</a></h4>
-        <button class="delete_button">
+        <button type="submit" class="delete_button">
             Ingresar
         </button>
     </form>
 </main>
 
-<script src="/socket.io/socket.io.js"></script>
-<script type="module" src="/js/index.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/jwt-decode@3.1.2/build/jwt-decode.min.js"></script>
+<script>
+    document.getElementById('loginForm').addEventListener('submit', async function (event) {
+        event.preventDefault();
+
+        const form = event.target;
+        const formData = new FormData(form);
+
+        const loginData = {
+            username: formData.get('username'),
+            password: formData.get('password')
+        };
+
+        try {
+            const response = await fetch('/api/sessions/login', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(loginData)
+            });
+
+            if (!response.ok) {
+                throw new Error('Failed to login');
+            }
+
+            const data = await response.json()
+
+            if (data.token) {
+                sessionStorage.setItem('token', data.token)
+                const decodedToken = jwt_decode(data.token)
+                sessionStorage.setItem('role', decodedToken.role)
+                sessionStorage.setItem('cartId', decodedToken.cartId)
+                window.location.href = `/productosactualizados?username=${decodedToken.username}&role=${decodedToken.role}&cartId=${decodedToken.cartId}&IsAdmin=${decodedToken.role==='admin'}`;
+            } else {
+                alert(result.error || 'Error al iniciar sesión')
+            }
+        } catch (error) {
+            console.error('Error during login:', error)
+            alert('Login failed: ' + error.message)
+        }
+    });
+</script>
+{{!--
+<script src="/js/index.js"></script> --}}
 <script type="module" src="/js/indexSimple.js"></script>

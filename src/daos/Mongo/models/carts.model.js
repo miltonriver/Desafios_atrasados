@@ -14,11 +14,12 @@ const cartSchema = new Schema({
                 type: Number,
                 default: 1
             }
-        }]
+        }],
+        default: []
     }   
 })
 
 cartSchema.pre('findOne', function () {
     this.populate('products.product')
 })
-export default model(cartsCollection, cartSchema);
+export default model(cartsCollection, cartSchema)

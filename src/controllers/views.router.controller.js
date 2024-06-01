@@ -1,5 +1,3 @@
-// import UserDaoMongo from "../daos/Mongo/userDaoMongo.js";
-// import ProductDaoMongo from "../daos/Mongo/productsDaoMongo.js";
 import DAOFactory from "../daos/factory.js";
 import { logger } from "../utils/logger.js";
 
@@ -20,20 +18,8 @@ export class ViewUserController {
         })
     }
 
-    registerPassport = (req, res) => {
-        res.render('registerpassport', {
-            style: 'index.css'
-        })
-    }
-
     login = (req, res) => {
         res.render('login', {
-            style: 'index.css'
-        })
-    }
-
-    loginPassport = (req, res) => {
-        res.render('loginpassport', {
             style: 'index.css'
         })
     }
@@ -60,7 +46,7 @@ export class ViewUserController {
                 nextPage,
                 page,
                 totalPages
-            } = await this.viewsRouterService.getUsersPaginate(parseInt(pageQuery) , parseInt(limit));
+            } = await this.viewsRouterService.getUsersPaginate(parseInt(pageQuery), parseInt(limit));
             //console.log(docs)
             res.render('users', {
                 users: docs,
@@ -119,11 +105,14 @@ export class ViewProductController {
     productosActualizados = async (req, res) => {
 
         try {
+            const { username, role, cartId } = req.query
             const products = await this.viewsRouterService.get()
             res.render('productosActualizados', {
-                username: req.session.username,
+                username:  username,
                 productos: products,
-                style: 'index.css'
+                cartId:    cartId,
+                IsAdmin:   role === 'admin',
+                style:     'index.css'
             })
         } catch (error) {
             logger.error("Error al intentar obtener la lista de productos actualizados: ", error);
@@ -139,15 +128,28 @@ export class ViewProductController {
             if (sort) {
                 sortOption = {[sort]: 1}
             }
-            const {
-                docs,
-                hasPrevPage,
-                hasNextPage,
-                prevPage,
-                nextPage,
-                page,
-                totalPages
-            } = await this.viewsRouterService.get({}, {limit, page: pageQuery, sort: sortOption, lean: true})
+            // const {
+            //     docs,
+            //     hasPrevPage,
+            //     hasNextPage,
+            //     prevPage,
+            //     nextPage,
+            //     page,
+            //     totalPages
+            // } = await this.viewsRouterService.getProductPaginate({}, {limit, page: pageQuery, sort: sortOption, lean: true})
+            // const products = await this.viewsRouterService.get()
+            const options = {
+                page: parseInt(pageQuery, 10),
+                limit: parseInt(limit, 10),
+                sort: sortOption,
+                lean: true
+            };
+    
+            const result = await this.viewsRouterService.getProductPaginate(options.page, options.limit);
+            const { docs, hasPrevPage, hasNextPage, prevPage, nextPage, page, totalPages } = result;
+
+            logger.debug(`contenido de Docs: ${docs}`)
+            logger.debug(`${page}, ${totalPages}, ${limit}, ${hasNextPage}, ${hasPrevPage}, ${nextPage}`)
             res.render('products', {
                 products: docs,
                 hasPrevPage,
@@ -176,6 +178,26 @@ export class ViewProductController {
         } catch (error) {
             logger.error("Error al intentar obtener la lista de productos!", error);
             res.render("Error al intentar obtener la lista de productos!");
+            return;
+        }
+    }
+}
+
+export class ViewCartController {
+    constructor(){
+        this.viewsRouterService = DAOFactory.getCartDao()
+    }
+
+    cartView = async (req, res) => {
+        try {
+            const cart = this.viewsRouterService.getBy()
+            res.render('cart', {
+                cart,
+                style: 'index.css'
+            })
+        } catch (error) {
+            logger.error("Error al intentar obtener el carrito seleccionado", error);
+            res.render("Error al intentar obtener el carrito!");
             return;
         }
     }

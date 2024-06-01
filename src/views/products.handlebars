@@ -1,23 +1,20 @@
 <div>
     <header>
-        <h1>Productos</h1>
-        <a href="">
-            <h2 class="carrito_de_compras">Carrito</h2>
-        </a>
+        <h1>Catálogo de Productos existentes</h1>
     </header>
     
     <section class="listCollection">
         {{#each products}}
         <ul>
             <h2>Producto Nº{{increment @index}} </h2>
-            <li><b>Nombre: </b> {{this.title}}</li>
-            <li><b>Descripción: </b> {{this.description}}</li>
-            <li><b>Precio: </b> {{this.price}}</li>
-            <li><b>Código: </b> {{this.code}}</li>
-            <li><b>Stock: </b> {{this.stock}}</li>
-            <li><b>Categoría: </b> {{this.category}}</li>
+            <li><b>Nombre: </b> {{this._doc.title}}</li>
+            <li><b>Descripción: </b> {{this._doc.description}}</li>
+            <li><b>Precio: </b> {{this._doc.price}}</li>
+            <li><b>Código: </b> {{this._doc.code}}</li>
+            <li><b>Stock: </b> {{this._doc.stock}}</li>
+            <li><b>Categoría: </b> {{this._doc.category}}</li>
         </ul>
-        <button id="add_button_to_cart" type="button" onclick="AddProductToCart({{this._id}})">Agregar al carrito</button>
+        <button id="add_button_to_cart" type="button" onclick="redirectToLogin()">Agregar al carrito</button>
         {{/each}}
     </section>
     <footer class="pageFooter">
@@ -33,3 +30,4 @@
 
 <script src="/socket.io/socket.io.js"></script>
 <script src="/js/index.js"></script>
+<script src="/js/indexSimple.js"></script>

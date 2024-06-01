@@ -1,13 +1,21 @@
 <main>
-    <h1>Trabajando con socket, intentando hacer un chat</h1>
+    <h1>Chat general de usuarios</h1>
+    <h2 class="h2_title">Bienvenido a nuestro chat</h2>
+    <span class="span_bar">
+        <a href="/productosActualizados">Catálogo de productos</a>
+        <a href="/api/sessions/logout" class="delete_button">Cerrar sesión</a>
+    </span>
+
+    <p class="h3_title">Chat disponible solo para usuarios registrados</p>
     <div>
-        <input type="text" id="chatbox">
+        <input type="text" id="chatbox" placeholder="Ingrese aquí su texto">
     </div>
     <div id="messageLogs">
-
     </div>
+
 </main>
 
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.10.2/dist/sweetalert2.all.min.js"></script>
 <script src="/socket.io/socket.io.js"></script>
 <script src="/js/index.js"></script>
+<script src="/js/indexSimple.js"></script>

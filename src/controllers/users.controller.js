@@ -1,6 +1,3 @@
-// import UserDaoMongo from "../daos/Mongo/userDaoMongo.js";
-// import DAOFactory from "../daos/factory.js";
-// import UserDto from "../dto/userDto.js";
 import { userService } from "../services/index.js";
 import { logger } from "../utils/logger.js";
 import { createHash } from "../utils/hashBcrypt.js";
@@ -10,7 +7,7 @@ class UserController {
         this.userService = userService
     }
     
-    getUsers = async (req, res) => {
+    getUsers   = async (req, res) => {
         try {
             const users = await this.userService.getUsers();
             res.send(users);
@@ -109,6 +106,30 @@ class UserController {
                 status: 'error',
                 message: 'Hubo un problema al intentar eliminar el usuario'
             })
+        }
+    }
+
+    verifyUser = async (req, res) => {
+        const { username } = req.body;
+        try {
+            const user = await this.userService.getUser(username);
+            if (user && (user.role === 'user' || user.role === 'user_premium')) {
+                res.status(200).send({
+                    status: 'success',
+                    message: 'Usuario verificado'
+                });
+            } else {
+                res.status(404).send({
+                    status: 'error',
+                    message: 'Usuario no encontrado o no autorizado'
+                });
+            }
+        } catch (error) {
+            logger.error('Error al verificar el usuario: ', error);
+            res.status(500).send({
+                status: 'error',
+                message: 'Error del servidor'
+            });
         }
     }
 }

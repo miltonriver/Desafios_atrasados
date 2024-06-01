@@ -1,28 +1,23 @@
-import { Router } from "express";
-import { ViewUserController, ViewProductController } from "../controllers/views.router.controller.js";
+import { Router }              from "express";
+import { ViewUserController, 
+         ViewProductController, 
+         ViewCartController }  from "../controllers/views.router.controller.js";
+import passportCall from "../middleware/passportCall.js";
 
-const router = Router()
-const viewUserController = new ViewUserController()
+const viewsRouter           = Router()
+const viewUserController    = new ViewUserController()
 const viewProductController = new ViewProductController()
+const viewCartController    = new ViewCartController()
 
-router.get('/',                      viewUserController.index)
+viewsRouter.get('/',                      viewUserController.index)
+viewsRouter.post('/',                     viewProductController.getProducts)
+viewsRouter.get('/cart',                  viewCartController.cartView)
+viewsRouter.get('/login',                 viewUserController.login)
+viewsRouter.get('/users',                 viewUserController.usersList)
+viewsRouter.get('/chatbox',               viewUserController.chatbox)
+viewsRouter.get('/register',              viewUserController.register)
+viewsRouter.get('/products',              viewProductController.products)
+viewsRouter.get('/realtimeproducts',      viewProductController.realTimeProducts)
+viewsRouter.get('/productosactualizados', passportCall('jwt'), viewProductController.productosActualizados)
 
-router.get('/register',              viewUserController.register)
-router.get('/registerpassport',      viewUserController.registerPassport)
-
-router.get('/login',                 viewUserController.login)
-router.get('/loginpassport',         viewUserController.loginPassport)
-
-router.get('/chatbox',               viewUserController.chatbox)
-
-router.get('/users',                 viewUserController.usersList)
-
-router.get('/realtimeproducts',      viewProductController.realTimeProducts)
-
-router.get('/productosactualizados', viewProductController.productosActualizados)
-
-router.get('/products',              viewProductController.products)
-
-router.post('/',                     viewProductController.getProducts)
-
-export default router
+export default viewsRouter

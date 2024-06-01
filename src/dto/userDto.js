@@ -8,9 +8,8 @@ class UserDto {
         this.password     = user.password//Debemos quitar este dato al enviar info sensible al usuario dentro de la ruta current
         this.age          = user.age
         this.phone_number = user.phone_number
+        this.role         = user.role
     }
 }
-
-//Mirar video minuto 01:40 caso de ser necesario para construir método estático
 
 export default UserDto
