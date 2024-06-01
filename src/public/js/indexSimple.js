@@ -178,7 +178,6 @@ function addProductToCart(productId, quantity = 1) {
         },
         body: JSON.stringify({ quantity })
     })
-    console.log(`cantidad: ${quantity}`)
         .then(response => {
             return response.json()
         })

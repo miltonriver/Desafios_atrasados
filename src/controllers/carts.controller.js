@@ -1,5 +1,6 @@
-import { cartService } from "../services/index.js";
-import { logger }      from "../utils/logger.js";
+import { cartService, 
+        productService } from "../services/index.js";
+import { logger }        from "../utils/logger.js";
 
 class CartController {
     constructor() {
@@ -68,9 +69,11 @@ class CartController {
 
     createProductInCart = async (req, res) => {
         try {
-            const { cid, pid } = req.params
-            const { quantity } = req.body
-            const cart = await this.cartService.getCart({ _id: cid })
+            const { cid, pid }    = req.params
+            const { quantity }    = req.body
+            const cart            = await this.cartService.getCart({ _id: cid })
+            const product         = await productService.getProduct({ _id: pid})
+            const newProductStock = product.stock - quantity
 
             if (cart.products.length < 0) {
                 return res.status(400).send({
@@ -84,9 +87,11 @@ class CartController {
                 quantity: quantity
             }
 
+            product.stock = newProductStock
+            await product.save()
             cart.products.push(productToAdd)
             await cart.save()
-
+            
             res.status(200).send({
                 status: "success",
                 message: 'Producto agregado al carrito con éxito',
@@ -105,10 +110,10 @@ class CartController {
 
     updateCart          = async (req, res) => {
         try {
-            const { cid } = req.params
+            const { cid }            = req.params
             const productToAddToCart = req.body
+            const cartToUpdate       = await this.cartService.updateCart(cid)
 
-            const cartToUpdate = await this.cartService.updateCart(cid)
             cartToUpdate.products.push(productToAddToCart)
             await cartToUpdate.save()
 
@@ -131,10 +136,9 @@ class CartController {
     updateProductInCart = async (req, res) => {
         // log("Entrando a la ruta PUT '/:cid/product/:pid'");
         try {
-            const { cid, pid } = req.params
+            const { cid, pid }    = req.params
             const { newQuantity } = req.body
-            // log(`Valor de cid: ${cid}`)
-            const cart = await this.cartService.getCart(cid)
+            const cart            = await this.cartService.getCart(cid)
             logger.warning(JSON.stringify(cart, null, '\t'))
 
             if (!cart) {
@@ -187,7 +191,7 @@ class CartController {
 
     deleteCart          = async (req, res) => {
         try {
-            const { cid } = req.params
+            const { cid }    = req.params
             const deleteCart = await this.cartService.deleteCart(cid)
 
             if (!deleteCart) {

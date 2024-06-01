@@ -3,15 +3,20 @@ import { Schema, model } from "mongoose";
 const cartsCollection = 'carts'
 
 const cartSchema = new Schema({
+    userEmail: { 
+        type:     String,
+        unique:   true,
+        required: true
+    },
     products: {
         type: [{
             product: {
-                type: Schema.Types.ObjectId,
-                ref: 'products',
+                type:  Schema.Types.ObjectId,
+                ref:   'products',
                 index: true
             },
             quantity: {
-                type: Number,
+                type:    Number,
                 default: 1
             }
         }],

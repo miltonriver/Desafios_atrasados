@@ -1,43 +1,43 @@
 import { Schema, model } from "mongoose";
-import mongoosePaginate from "mongoose-paginate-v2";
+import mongoosePaginate  from "mongoose-paginate-v2";
 
 const usersCollection = 'users'
 
 const userSchema = new Schema({
     first_name: String,
-    last_name: String,
+    last_name:  String,
     username:{
-        type: String,
-        unique: true,
+        type:     String,
+        unique:   true,
         required: true,
-        index:true
+        index:    true
     },
     email:{
-        type: String,
-        unique: true,
+        type:     String,
+        unique:   true,
         required: true,
-        index: true
+        index:    true
     },
     password: {
-        type: String,
+        type:     String,
         required: true
     },
     isActive: {
-        type: Boolean,
+        type:    Boolean,
         default: true
     },
     phone_number: {
-        type: Number,
+        type:    Number,
         default: 1111111111
     },
     age: Number,
     cartId: {
         type: Schema.Types.ObjectId,
-        ref: 'carts'
+        ref:  'carts'
     },
     role: {
-        type: String,
-        enum: ['user', 'user_premiun', 'admin'],
+        type:    String,
+        enum:    ['user', 'user_premiun', 'admin'],
         default: 'user'
     }
 })
