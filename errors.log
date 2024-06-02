@@ -94,3 +94,6 @@ error: Error al intentar loguearse:
 error: las credenciales no coinciden, no se puede iniciar sesión
 error: Error desconocido al crear usuario: E11000 duplicate key error collection: ecommerce.users index: username_1 dup key: { username: "joita19" }
 error: Error desconocido al crear usuario: E11000 duplicate key error collection: ecommerce.users index: email_1 dup key: { email: "joanitapuebla@gmail.com" }
+error: Error desconocido al crear usuario: carts validation failed: userEmail: Path `userEmail` is required.
+error: Error desconocido al crear usuario: E11000 duplicate key error collection: ecommerce.users index: username_1 dup key: { username: "joita19" }
+error: las credenciales no coinciden, no se puede iniciar sesión

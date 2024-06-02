@@ -192,3 +192,12 @@ function addProductToCart(productId, quantity = 1) {
             console.error('Error:', error)
         })
 }
+
+// socket.on('stockUpdated', (data) => {
+//     const { productId, newStock } = data
+//     const stockElement = document.querySelector(`#quantity-${productId}`)
+//     console.log(`Contenido de stockElement: ${stockElement}`)
+//     if (stockElement) {
+//         stockElement.max = newStock
+//     }
+// })

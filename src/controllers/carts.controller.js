@@ -72,6 +72,7 @@ class CartController {
             const { cid, pid }    = req.params
             const { quantity }    = req.body
             const cart            = await this.cartService.getCart({ _id: cid })
+            logger.debug(`carrito obtenido: ${JSON.stringify(cart, null, 2)}`)
             const product         = await productService.getProduct({ _id: pid})
             const newProductStock = product.stock - quantity
 
@@ -82,15 +83,35 @@ class CartController {
                 })
             }
 
-            const productToAdd = {
-                product: pid,
-                quantity: quantity
+            const pidString = pid.toString()
+
+            const productIndexInCart = cart.products.findIndex(item => item.product._id.toString() === pidString)
+            logger.debug(`Existe el producto en el carrito??: ${productIndexInCart}`)
+
+            if (productIndexInCart > -1) {
+                const newQuantity = parseInt(cart.products[productIndexInCart].quantity) + parseInt(quantity)
+                cart.products[productIndexInCart]. quantity = newQuantity
+            } else {
+                const productToAdd = {
+                    product: pid,
+                    quantity: quantity
+                }
+                cart.products.push(productToAdd)
             }
 
             product.stock = newProductStock
             await product.save()
-            cart.products.push(productToAdd)
             await cart.save()
+
+            /* 
+            * =======================================================
+            * Quité la función de actualización en tiempo real porque trae muchos
+            * problemas para el resto del código, creando demasiados conflictos y
+            *  rompiendo el mismo en distintos lugares.
+            * =======================================================
+            */
+
+            // io.emit('stockUpdated', { productId: pid, newStock: newProductStock })
             
             res.status(200).send({
                 status: "success",

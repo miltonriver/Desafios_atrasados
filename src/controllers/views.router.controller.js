@@ -6,25 +6,25 @@ export class ViewUserController {
         this.viewsRouterService = DAOFactory.getUserDao()
     }
 
-    index = (req, res) => {
+    index     = async (req, res) => {
         res.render("index", {
             style: 'index.css'
         })
     }
 
-    register = (req, res) => {
+    register  = async (req, res) => {
         res.render('register', {
             style: 'index.css'
         })
     }
 
-    login = (req, res) => {
+    login     = async (req, res) => {
         res.render('login', {
             style: 'index.css'
         })
     }
 
-    chatbox = (req, res) => {
+    chatbox   = async (req, res) => {
         res.render('chat', {
             style: 'index.css'
         })
@@ -72,7 +72,7 @@ export class ViewProductController {
         this.viewsRouterService = DAOFactory.getProductDao()
     }
 
-    realTimeProducts = async (req, res) => {
+    realTimeProducts      = async (req, res) => {
 
         try {
             if(!req.user) {
@@ -121,23 +121,13 @@ export class ViewProductController {
         }
     }
     
-    products = async (req, res) => {
+    products              = async (req, res) => {
         try {
             const { limit = 5, pageQuery= 1, sort } = req.query
             let sortOption = {}
             if (sort) {
                 sortOption = {[sort]: 1}
             }
-            // const {
-            //     docs,
-            //     hasPrevPage,
-            //     hasNextPage,
-            //     prevPage,
-            //     nextPage,
-            //     page,
-            //     totalPages
-            // } = await this.viewsRouterService.getProductPaginate({}, {limit, page: pageQuery, sort: sortOption, lean: true})
-            // const products = await this.viewsRouterService.get()
             const options = {
                 page: parseInt(pageQuery, 10),
                 limit: parseInt(limit, 10),
@@ -168,7 +158,7 @@ export class ViewProductController {
         }
     }
 
-    getProducts = async (req, res) => {
+    getProducts           = async (req, res) => {
         try {
             const products = await this.viewsRouterService.get()
             res.render('realTimeProducts', {
@@ -191,6 +181,7 @@ export class ViewCartController {
     cartView = async (req, res) => {
         try {
             const cart = this.viewsRouterService.getBy()
+            logger.debug(`Contenido de cart en la vista: ${JSON.stringify(cart)}`)
             res.render('cart', {
                 cart,
                 style: 'index.css'

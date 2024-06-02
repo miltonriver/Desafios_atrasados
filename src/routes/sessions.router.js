@@ -11,7 +11,7 @@ sessionsRouter.post('/login',           sessionController.loginUser)
 sessionsRouter.get ('/failregister',    sessionController.failRegister)
 sessionsRouter.get ('/logout',          sessionController.logoutUser)
 sessionsRouter.get ('/faillogin',       sessionController.failLogin)
-sessionsRouter.get ('/current', passportCall('jwt'), authorization('admin'), sessionController.tokenMiddleware)//Estrategia usada con Passport-jwt--------------------
+sessionsRouter.get ('/current',         passportCall('jwt'), authorization('admin'), sessionController.tokenMiddleware)//Estrategia usada con Passport-jwt--------------------
 sessionsRouter.get ('/restartPassword', sessionController.restartPassword)//completar
 
 export default sessionsRouter

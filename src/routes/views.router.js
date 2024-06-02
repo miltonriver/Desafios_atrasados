@@ -11,7 +11,7 @@ const viewCartController    = new ViewCartController()
 
 viewsRouter.get('/',                      viewUserController.index)
 viewsRouter.post('/',                     viewProductController.getProducts)
-viewsRouter.get('/cart',                  viewCartController.cartView)
+viewsRouter.get('/cart',                  passportCall('jwt'),   viewCartController.cartView)
 viewsRouter.get('/login',                 viewUserController.login)
 viewsRouter.get('/users',                 viewUserController.usersList)
 viewsRouter.get('/chatbox',               viewUserController.chatbox)

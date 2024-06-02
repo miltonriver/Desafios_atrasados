@@ -18,6 +18,7 @@
 </main>
 
 <script src="https://cdn.jsdelivr.net/npm/jwt-decode@3.1.2/build/jwt-decode.min.js"></script>
+<script src="/socket.io/socket.io.js"></script>
 <script>
     document.getElementById('loginForm').addEventListener('submit', async function (event) {
         event.preventDefault();
@@ -60,6 +61,4 @@
         }
     });
 </script>
-{{!--
-<script src="/js/index.js"></script> --}}
 <script type="module" src="/js/indexSimple.js"></script>

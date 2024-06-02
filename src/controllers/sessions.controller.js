@@ -4,12 +4,8 @@ import { userService,
 import { createHash, 
         isValidPassword } from "../utils/hashBcrypt.js";
 import generateToken      from "../utils/jsonwebtoken.js";
-import productsModel      from "../daos/Mongo/models/products.model.js";
 import { logger }         from "../utils/logger.js";
 import UserDto            from "../dto/userDto.js";
-import CartDaoMongo from "../daos/Mongo/cartsDaoMongo.js";
-
-const cartDao = new CartDaoMongo()
 
 class SessionController {
     constructor() {
@@ -26,8 +22,7 @@ class SessionController {
             }
 
             const phoneNumber = phone_number && phone_number.trim() !== '' ? phone_number : 1111111111
-
-            const newUser = {
+            const newUser     = {
                 first_name,
                 last_name,
                 username,
@@ -35,17 +30,11 @@ class SessionController {
                 password: createHash(password),
                 phone_number: phoneNumber
             }
-            const result = await userService.createUser(newUser)
-            logger.debug(`Usuario creado: ${JSON.stringify(result)}`);
-            
-            const newCart = { products: [] }
+            const result         = await userService.createUser(newUser)
+            const newCart        = { userEmail: newUser.email, products: [] }
             const newCartCreated = await cartService.createCart(newCart)
-            logger.debug(`Contenido del nuevo carro creado: ${JSON.stringify(newCartCreated)}`)
-
-            result.cartId = newCartCreated._id
-            logger.debug(`Asignación de cartId al usuario: ${result.cartId}`)
+            result.cartId        = newCartCreated._id
             await result.save()
-            logger.debug(`Usuario actualizado con cartId: ${JSON.stringify(result)}`)
 
             const token = generateToken({
                 fullname: fullname,
@@ -212,50 +201,6 @@ class SessionController {
     //     try {
     //         req.session.user = req.user
     //         res.redirect('/realtimeproducts')
-
-    //     } catch (error) {
-    //         res.send({
-    //             status: "error",
-    //             error: error.message
-    //         })
-    //     }
-    // }
-
-    // registerPassport = async (req, res) => {
-    //     try {
-    //         const username = req.body.username || (req.user && req.user.username);
-
-    //         res.render('registerSuccessPassport', {
-    //             username: username,
-    //             style: "index.css"
-    //         })
-
-    //     } catch (error) {
-    //         res.send({
-    //             status: "error",
-    //             error: error.message
-    //         })
-    //     }
-    // }
-
-    // loginPassport = async (req, res) => {
-    //     try {
-    //         if (!req.user) return res.status(401).send({ status: "error", error: "credenciales inválidas" })
-
-    //         req.session.user = {
-    //             first_name: req.user.first_name,
-    //             last_name: req.user.last_name,
-    //             email: req.user.email,
-    //             phone_number: req.user.phone_number
-    //         }
-
-    //         const username = req.body.username || (req.user && req.user.username);
-    //         const products = await productsModel.find({})
-    //         res.render('productosActualizados', {
-    //             username: username,
-    //             productos: products,
-    //             style: 'index.css'
-    //         })
 
     //     } catch (error) {
     //         res.send({
