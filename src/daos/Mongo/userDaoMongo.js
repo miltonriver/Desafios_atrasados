@@ -2,7 +2,7 @@ import userModel from "./models/users.model.js"
 
 class UserDaoMongo {
     async get(){
-        return await userModel.find({})
+        return await userModel.find({}).lean()
     }
 
     async getUsersPaginate(page = 1, limit = 5){
@@ -14,7 +14,7 @@ class UserDaoMongo {
     }
 
     async getBy(username){
-        return await userModel.findOne({username})
+        return await userModel.findOne({username}).lean()
     }
 
     async create(newUser){

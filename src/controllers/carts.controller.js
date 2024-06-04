@@ -36,7 +36,7 @@ class CartController {
             logger.info(`El carrito de ID "${cartId._id}" ha sido seleccionado correctamente`)
 
         } catch (error) {
-            res.status(400).send({
+            res.status(500).send({
                 status: 'error',
                 message: 'El carrito solicitado no existe o está vacío'
             })
@@ -86,11 +86,10 @@ class CartController {
             const pidString = pid.toString()
 
             const productIndexInCart = cart.products.findIndex(item => item.product._id.toString() === pidString)
-            logger.debug(`Existe el producto en el carrito??: ${productIndexInCart}`)
 
             if (productIndexInCart > -1) {
                 const newQuantity = parseInt(cart.products[productIndexInCart].quantity) + parseInt(quantity)
-                cart.products[productIndexInCart]. quantity = newQuantity
+                cart.products[productIndexInCart].quantity = newQuantity
             } else {
                 const productToAdd = {
                     product: pid,
@@ -242,7 +241,7 @@ class CartController {
         try {
             const { cid, pid } = req.params
             const cart = await this.cartService.getCart(cid)
-            // logger.debug(`Contenido de cart: ${cart}`)
+            logger.debug(`Contenido del cart a borrar: ${cart}`)
 
             if (!cart) {
                 return res.status(404).send({
@@ -261,7 +260,6 @@ class CartController {
             const productIndex = cart.products.findIndex(
                 (product) => String(product._id) === String(pid)
             );
-            // logger.debug(`Contenido del índice: ${productIndex}`)
 
             cart.products.splice(productIndex, 1);
 

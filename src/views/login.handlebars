@@ -47,10 +47,11 @@
             const data = await response.json()
 
             if (data.token) {
-                sessionStorage.setItem('token', data.token)
-                const decodedToken = jwt_decode(data.token)
-                sessionStorage.setItem('role', decodedToken.role)
-                sessionStorage.setItem('cartId', decodedToken.cartId)
+                sessionStorage.setItem('token',    data.token)
+                const decodedToken = jwt_decode    (data.token)
+                sessionStorage.setItem('role',     decodedToken.role)
+                sessionStorage.setItem('cartId',   decodedToken.cartId)
+                sessionStorage.setItem('username', decodedToken.username)
                 window.location.href = `/productosactualizados?username=${decodedToken.username}&role=${decodedToken.role}&cartId=${decodedToken.cartId}&IsAdmin=${decodedToken.role==='admin'}`;
             } else {
                 alert(result.error || 'Error al iniciar sesión')

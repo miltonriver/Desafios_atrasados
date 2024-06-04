@@ -1,28 +1,46 @@
-<h2 class="h2_title">Mi Carrito</h2>
+<main class="cart_main_container">       
+    {{#if cart.products.length}}
+        <h2 class="h2_title">Mi Carrito</h2>
 
-{{#if cart.products.length}} 
-
-    {{#each cart.products}}
-        <div>
-            <img src="{{this.product.imageUrl}}" class="m-5" alt="Image product" style="width: 10%;">
-            <label>Nombre: {{this.product.title}}</label>
-            <label>Precio: {{this.product.price}}</label>
-            <label>Cantidad: {{this.quantity}}</label>
-            <button class="btn btn-outline-danger" onclick="eliminarProduct('{{this.product._id}}')"><strong> X </strong></button>
+        {{#each cart.products}}
+            <section class="cart_section_container">
+                <div class="cart_div_container">
+                    <label class="cart_label">Nombre:  <b>  {{this.product.title}}</b></label>
+                    <label class="cart_label">Precio:  <b>$ {{this.product.price}}</b></label>
+                    <label class="cart_label">Cantidad:<b>  {{this.quantity}}     </b></label>
+                </div>
+                <button class="btn btn-outline-danger" onclick="deleteProductInCart('{{this.product._id}}')"><strong> X </strong>
+                </button>
+            </section>
+</main>
+        {{/each}}
+        <div class="buy_button">
+            <button id="terminar-compra" class="btn btn-outline-success">Terminar compra</button>
         </div>
-            
-    {{/each}}
-    <button id="terminar-compra" class="btn btn-outline-success">Terminar compra</button>
-
-{{else}}
-    <section class="carrito_vacio">
-        <p class="cart_legend">El carrito está vacío</p>
-        <hr class="solid_line" size="10px">
-        <a href="/productosactualizados" class='icon_cart bx bx-cart'>➡ Ir a comprar</a>
-    </section>
-    
-{{/if}}
+    {{else}}
+        <h2 class="h2_title">Mi Carrito</h2>
+        <section class="carrito_vacio">
+            <p class="cart_legend">El carrito está vacío</p>
+            <hr class="solid_line" size="10px">
+            <a href="/productosactualizados" class='icon_cart bx bx-cart'>➡ Ir a comprar</a>
+        </section>
+    {{/if}}
 
 <link rel="stylesheet" href="/css/index.css">
 <script src="/socket.io/socket.io.js"></script>
 <script src="/js/indexSimple.js"></script>
+<script>
+    function deleteProductInCart(pid) {
+        const cid = sessionStorage.getItem('cartId')
+        fetch(`/api/carts/${cid}/products/${pid}`, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json'
+            }
+        })
+        .then(response => response.json())
+        .then(data => {
+            window.location.reload()
+        })
+    }
+</script>

@@ -180,15 +180,24 @@ export class ViewCartController {
 
     cartView = async (req, res) => {
         try {
-            const cart = this.viewsRouterService.getBy()
-            logger.debug(`Contenido de cart en la vista: ${JSON.stringify(cart)}`)
+            
+            const { cid } = req.params
+            console.log(`contenido de cid: ${JSON.stringify(cid)}`);
+
+            const cart = await this.viewsRouterService.getBy({ _id: cid })
+            console.log(`Contenido de cart en la vista: ${JSON.stringify(cart, null, 2)}`)
+
+            if (!cart) {
+                throw new Error('carrito no encontrado')
+            }
+
             res.render('cart', {
                 cart,
                 style: 'index.css'
             })
         } catch (error) {
-            logger.error("Error al intentar obtener el carrito seleccionado", error);
-            res.render("Error al intentar obtener el carrito!");
+            console.error("Error al intentar obtener el carrito seleccionado", error);
+            res.render("Error al intentar obtener el carrito!", error);
             return;
         }
     }

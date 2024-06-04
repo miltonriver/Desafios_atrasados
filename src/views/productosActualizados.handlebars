@@ -12,7 +12,7 @@
     <h1>Bienvenido a nuestra tienda!!</h1>
     <h3 class="identification_tittle">Usted se ha identificado como: <i>{{username}}</i></h3>
     <div class="icon_cart_container">
-        <a href="/cart"><i class='icon_cart bx bx-cart'>Cart</i></a>
+        <i class='icon_cart bx bx-cart' id="cart_route">Cart</i>
         <a href="/api/sessions/logout" class="delete_button">Cerrar sesión</a>
     </div>
 </header>
@@ -26,12 +26,12 @@
         {{#each productos}}
         <div>
             <li>
-                Nombre: <b>{{this._doc.title}}</b>
-                <p><b>Descripción:</b> {{this._doc.description}}</p>
-                <p>Precio: <b>$ {{this._doc.price}}</b></p>
-                <p>Código: <b>{{this._doc.code}}</b></p>
-                <p>Stock: <b>{{this._doc.stock}}</b></p>
-                <p>Id: <b>{{this._doc._id}}</b></p>
+                Nombre:           <b>  {{this.title}}      </b>
+                <p><b>Descripción:</b> {{this.description}}</p>
+                <p>Precio:        <b>$ {{this.price}}      </b></p>
+                <p>Código:        <b>  {{this._doc.code}}  </b></p>
+                <p>Stock:         <b>  {{this._doc.stock}} </b></p>
+                <p>Id:            <b>  {{this._doc._id}}   </b></p>
                 <button type="button" class="delete_button"
                     onclick='deleteProduct("{{this._doc._id}}")'>Eliminar</button>
             </li>
@@ -93,13 +93,15 @@
         {{#each productos}}
         <div>
             <li>
-                Nombre: <b>{{this._doc.title}}</b>
-                <p><b>Descripción:</b> {{this._doc.description}}</p>
-                <p>Precio: <b>$ {{this._doc.price}}</b></p>
-                <p>Stock: <b>{{this._doc.stock}}</b></p>
-                <p>ID: <b>{{this._doc._id}}</b></p>
-                <input type="number" id="quantity-{{this._doc._id}}" value="1" min="1" max="{{this._doc.stock}}" />
-                <button type="button" class="add_button" onclick='addProductToCart("{{this._doc._id}}", document.getElementById("quantity-{{this._doc._id}}").value)'>Agregar al carrito</button>
+                Nombre:           <b>  {{this.title}} </b>
+                <p><b>Descripción:</b> {{this.description}}</p>
+                <p>Precio:        <b>$ {{this.price}} </b></p>
+                <p>Stock:         <b>  {{this.stock}} </b></p>
+                <p>ID:            <b>  {{this._id}}   </b></p>
+                <input type="number" id="quantity-{{this._id}}" value="1" min="1" max="{{this.stock}}" />
+                <button type="button" class="add_button"
+                    onclick='addProductToCart("{{this._id}}", document.getElementById("quantity-{{this._id}}").value)'>Agregar
+                    al carrito</button>
             </li>
         </div>
         {{/each}}
@@ -113,3 +115,10 @@
 <script src="https://cdn.jsdelivr.net/npm/jwt-decode@3.1.2/build/jwt-decode.min.js"></script>
 <script src="/socket.io/socket.io.js"></script>
 <script src="/js/indexSimple.js"></script>
+<script>
+    const cart = document.getElementById('cart_route')
+    cart.addEventListener('click', () => {
+        const cid = sessionStorage.getItem('cartId')
+        window.location.href = `/cart/${cid}`
+    })
+</script>

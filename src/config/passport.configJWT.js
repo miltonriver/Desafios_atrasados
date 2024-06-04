@@ -12,7 +12,6 @@ const initializePassportJWT = () => {
         let token = null
         if(req && req.cookies){
             token = req.cookies['cookieToken']
-            logger.debug(`Contenido de token en el middleware: ${token}`)
         }
         return token
     }

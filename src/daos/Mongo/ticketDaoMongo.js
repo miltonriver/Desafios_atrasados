@@ -5,10 +5,10 @@ class TicketDaoMongo {
         this.ticketModel = ticketModel
     }
     async get()                       {
-        return await this.ticketModel.find({})
+        return await this.ticketModel.find({}).lean()
     }
     async getBy(tid)                  {
-        return await this.ticketModel.findOne(tid)
+        return await this.ticketModel.findOne(tid).lean()
     }
     async create(newTicket)           {
         return await this.ticketModel.create(newTicket)
