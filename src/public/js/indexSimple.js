@@ -187,6 +187,7 @@ function addProductToCart(productId, quantity = 1) {
         .then(data => {
             if (data.status === "success") {
                 alert(`${quantity} productos han sido agregado al carrito de forma exitosa`)
+                window.location.reload()
             } else {
                 alert('Error al agregar el producto al carrito')
             }

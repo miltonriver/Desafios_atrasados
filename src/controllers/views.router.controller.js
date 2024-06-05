@@ -182,10 +182,18 @@ export class ViewCartController {
         try {
             
             const { cid } = req.params
-            console.log(`contenido de cid: ${JSON.stringify(cid)}`);
+            const cart    = await this.viewsRouterService.getBy({ _id: cid })
+            // logger.debug(`Id del producto dentro el cart: ${cart.products}`)
 
-            const cart = await this.viewsRouterService.getBy({ _id: cid })
-            console.log(`Contenido de cart en la vista: ${JSON.stringify(cart, null, 2)}`)
+            let totalIndividualCompra = []
+            let totalGeneralCompra    = 0
+
+            for (let i = 0; i < cart.products.length; i++) {
+                const totalBuy = cart.products[i].quantity * cart.products[i].product.price
+                logger.info(`Total obtenido durante la iteración nro ${i}: $ ${totalBuy}`)
+                totalIndividualCompra.push(totalBuy)
+                totalGeneralCompra += totalBuy
+            }
 
             if (!cart) {
                 throw new Error('carrito no encontrado')
@@ -193,6 +201,8 @@ export class ViewCartController {
 
             res.render('cart', {
                 cart,
+                totalIndividualCompra,
+                totalGeneralCompra,
                 style: 'index.css'
             })
         } catch (error) {

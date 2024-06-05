@@ -101,16 +101,6 @@ class CartController {
             product.stock = newProductStock
             await product.save()
             await cart.save()
-
-            /* 
-            * =======================================================
-            * Quité la función de actualización en tiempo real porque trae muchos
-            * problemas para el resto del código, creando demasiados conflictos y
-            *  rompiendo el mismo en distintos lugares.
-            * =======================================================
-            */
-
-            // io.emit('stockUpdated', { productId: pid, newStock: newProductStock })
             
             res.status(200).send({
                 status: "success",
@@ -240,8 +230,9 @@ class CartController {
     deleteProductInCart = async (req, res) => {
         try {
             const { cid, pid } = req.params
+            const { quantity } = req.body
             const cart = await this.cartService.getCart(cid)
-            logger.debug(`Contenido del cart a borrar: ${cart}`)
+            const product = await productService.getProduct(pid)
 
             if (!cart) {
                 return res.status(404).send({
@@ -260,9 +251,10 @@ class CartController {
             const productIndex = cart.products.findIndex(
                 (product) => String(product._id) === String(pid)
             );
+            product.stock += parseInt(quantity)
+            await product.save()
 
             cart.products.splice(productIndex, 1);
-
             await cart.save();
 
             res.status(200).send({
