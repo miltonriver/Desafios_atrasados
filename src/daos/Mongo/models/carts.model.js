@@ -27,4 +27,5 @@ const cartSchema = new Schema({
 cartSchema.pre('findOne', function () {
     this.populate('products.product')
 })
+
 export default model(cartsCollection, cartSchema)

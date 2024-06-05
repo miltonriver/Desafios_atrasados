@@ -41,6 +41,10 @@ const userSchema = new Schema({
         default: 'user'
     }
 })
+
+userSchema.pre('findOne', function () {
+    this.populate('cartId')
+})
 userSchema.plugin(mongoosePaginate)
 
 export default model(usersCollection, userSchema)

@@ -8,7 +8,7 @@ class TicketDaoMongo {
         return await this.ticketModel.find({}).lean()
     }
     async getBy(tid)                  {
-        return await this.ticketModel.findOne(tid).lean()
+        return await this.ticketModel.findOne(tid)
     }
     async create(newTicket)           {
         return await this.ticketModel.create(newTicket)

@@ -1,13 +1,15 @@
-import { cartService, 
-        productService } from "../services/index.js";
-import { logger }        from "../utils/logger.js";
+import { cartService,
+        productService,
+        ticketService } from "../services/index.js";
+import { logger }       from "../utils/logger.js";
+import { nanoid }       from "nanoid";
 
 class CartController {
     constructor() {
         this.cartService = cartService
     }
 
-    getCarts            = async (req, res) => {
+    getCarts = async (req, res) => {
         try {
             const carts = await this.cartService.getCarts()
             res.status(400).send({
@@ -21,7 +23,7 @@ class CartController {
         }
     }
 
-    getCart             = async (req, res) => {
+    getCart = async (req, res) => {
         try {
             const { cid } = req.params
             const cartId = await this.cartService.getCart({ _id: cid })
@@ -43,7 +45,7 @@ class CartController {
         }
     }
 
-    createCart          = async (req, res) => {
+    createCart = async (req, res) => {
         try {
             const { products } = req.body
             const newCart = {
@@ -69,11 +71,11 @@ class CartController {
 
     createProductInCart = async (req, res) => {
         try {
-            const { cid, pid }    = req.params
-            const { quantity }    = req.body
-            const cart            = await this.cartService.getCart({ _id: cid })
+            const { cid, pid } = req.params
+            const { quantity } = req.body
+            const cart = await this.cartService.getCart({ _id: cid })
             logger.debug(`carrito obtenido: ${JSON.stringify(cart, null, 2)}`)
-            const product         = await productService.getProduct({ _id: pid})
+            const product = await productService.getProduct({ _id: pid })
             const newProductStock = product.stock - quantity
 
             if (cart.products.length < 0) {
@@ -101,7 +103,7 @@ class CartController {
             product.stock = newProductStock
             await product.save()
             await cart.save()
-            
+
             res.status(200).send({
                 status: "success",
                 message: 'Producto agregado al carrito con éxito',
@@ -118,11 +120,11 @@ class CartController {
         }
     }
 
-    updateCart          = async (req, res) => {
+    updateCart = async (req, res) => {
         try {
-            const { cid }            = req.params
+            const { cid } = req.params
             const productToAddToCart = req.body
-            const cartToUpdate       = await this.cartService.updateCart(cid)
+            const cartToUpdate = await this.cartService.updateCart(cid)
 
             cartToUpdate.products.push(productToAddToCart)
             await cartToUpdate.save()
@@ -146,9 +148,9 @@ class CartController {
     updateProductInCart = async (req, res) => {
         // log("Entrando a la ruta PUT '/:cid/product/:pid'");
         try {
-            const { cid, pid }    = req.params
+            const { cid, pid } = req.params
             const { newQuantity } = req.body
-            const cart            = await this.cartService.getCart(cid)
+            const cart = await this.cartService.getCart(cid)
             logger.warning(JSON.stringify(cart, null, '\t'))
 
             if (!cart) {
@@ -199,9 +201,9 @@ class CartController {
         }
     }
 
-    deleteCart          = async (req, res) => {
+    deleteCart = async (req, res) => {
         try {
-            const { cid }    = req.params
+            const { cid } = req.params
             const deleteCart = await this.cartService.deleteCart(cid)
 
             if (!deleteCart) {
@@ -272,59 +274,44 @@ class CartController {
         }
     }
 
-    purchaseProducts    = async (req, res) => {
+    purchaseProducts = async (req, res) => {
         try {
             const { cid } = req.params
-            const cart = await this.cartService.getCart(cid).populate('products.product')
+            const cart = await this.cartService.getCart(cid)
+            logger.debug(`Contenido del carrito comprado: ${JSON.stringify(cart, null, 2)}`)
 
             if (!cart) {
                 return res.status(404).send({ status: 'error', message: 'No se puede encontrar el carrito seleccionado' })
             }
 
-            const productsNotPurchased = []
             const purchaseProducts = []
+            let totalCartPrice = 0
 
-            for (const item of cart.products) {
-                const product = await productsModel.findById(item.product._id)
-
-                if (product.stock >= item.quantity) {
-                    product.stock -= item.quantity
-                    await product.save()
-
-                    purchaseProducts.push({
-                        product: item.product._id,
-                        quantity: item.quantity,
-                        price: item.product.price
-                    });
-                } else {
-                    productsNotPurchased.push(item.product._id)
-                }
+            for (let i = 0; i < cart.products.length; i++) {
+                const totalBuy = cart.products[i].product.price * cart.products[i].quantity
+                purchaseProducts.push(totalBuy)
+                logger.info(`Total obtenido durante la iteración nro ${i}: $ ${totalBuy}`)
+                totalCartPrice += totalBuy
             }
-
-            const amount = purchaseProducts.reduce((total, item) => total + (item.quantity * item.price), 0)
+            logger.debug(`Precio total de la compra: $ ${totalCartPrice}`)
 
             if (purchaseProducts.length > 0) {
-                const ticket = await ticketsModel.create({
+                const ticket = await ticketService.createTicket({
                     code: nanoid(),
                     purchase_datetime: new Date(),
-                    amount,
-                    purchaser: req.user.email
+                    amount: totalCartPrice,
+                    purchaser: cart.userEmail
                 })
-
-                cart.products = cart.products.filter(item => productsNotPurchased.includes(item.product._id));
-                await cart.save()
-
+                logger.info(`Compra realizada exitosamente, se ha generado el siguiente ticket: ${ticket}`)
                 return res.status(200).send({
                     status: 'success',
                     message: 'Compra completada exitosamente',
-                    ticket,
-                    productsNotPurchased
+                    ticket
                 })
             } else {
                 return res.status(400).send({
                     status: 'error',
                     message: 'El stock del producto a comprar es insuficiente',
-                    productsNotPurchased
                 })
             }
         } catch (error) {

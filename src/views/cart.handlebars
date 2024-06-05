@@ -1,36 +1,36 @@
-<main class="cart_main_container">       
+<main class="cart_main_container">
     {{#if cart.products.length}}
-        <h2 class="h2_title">Mi Carrito</h2>
+    <h2 class="h2_title">Mi Carrito</h2>
 
-        {{#each cart.products}}
-            <section class="cart_section_container">
-                <div class="cart_div_container">
-                    <label class="cart_label">Nombre:      <b>  {{this.product.title}}</b></label>
-                    <label class="cart_label">Cantidad:    <b>  {{this.quantity}}     </b></label>
-                    <label class="cart_label">Precio Unit.:<b>$ {{this.product.price}}</b></label>
-                    <label class="cart_label">Id:          <b>  {{this.product._id}}</b></label>
-                    <hr size="5px" width="100%" color="green">
-                    <label class="total_cart_label">Total:   <b>$ {{lookup ../totalIndividualCompra @index}}</b></label>
-                </div>
-                <button class="btn btn-outline-danger" onclick="deleteProductInCart('{{this.product._id}}', '{{this.quantity}}')"><strong> X </strong>
-                </button>
-            </section>
-        {{/each}}
+    {{#each cart.products}}
+    <section class="cart_section_container">
+        <div class="cart_div_container">
+            <label class="cart_label">Nombre:      <b>  {{this.product.title}}</b></label>
+            <label class="cart_label">Cantidad:    <b>  {{this.quantity}} </b></label>
+            <label class="cart_label">Precio Unit.:<b>$ {{this.product.price}}</b></label>
+            <hr size="5px" width="100%" color="green">
+            <label class="total_cart_label">Total: <b>$ {{lookup ../totalIndividualCompra @index}}</b></label>
+        </div>
+        <button class="btn btn-outline-danger"
+            onclick="deleteProductInCart('{{this.product._id}}', '{{this.quantity}}')"><strong> X </strong>
+        </button>
+    </section>
+    {{/each}}
 </main>
-        <div class="total_general_compra">
-            Total general de la compra: <span class="total_general_compra_span">$ {{totalGeneralCompra}}</span>
-        </div>
-        <div class="buy_button">
-            <button id="terminar-compra" class="btn btn-outline-success">Terminar compra</button>
-        </div>
-    {{else}}
-        <h2 class="h2_title">Mi Carrito</h2>
-        <section class="carrito_vacio">
-            <p class="cart_legend">El carrito está vacío</p>
-            <hr class="solid_line" size="10px">
-            <a href="/productosactualizados" class='icon_cart bx bx-cart'>➡ Ir a comprar</a>
-        </section>
-    {{/if}}
+<div class="total_general_compra">
+    Total general de la compra: <span class="total_general_compra_span">$ {{totalGeneralCompra}}</span>
+</div>
+<div class="buy_button">
+    <button id="terminar-compra" class="btn btn-outline-success" onclick="purchaseCart()">Terminar compra</button>
+</div>
+{{else}}
+<h2 class="h2_title">Mi Carrito</h2>
+<section class="carrito_vacio">
+    <p class="cart_legend">El carrito está vacío</p>
+    <hr class="solid_line" size="10px">
+    <a href="/productosactualizados" class='icon_cart bx bx-cart'>➡ Ir a comprar</a>
+</section>
+{{/if}}
 
 <link rel="stylesheet" href="/css/index.css">
 <script src="/socket.io/socket.io.js"></script>
@@ -43,11 +43,33 @@
             headers: {
                 'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ quantity: quantity})
+            body: JSON.stringify({ quantity: quantity })
         })
-        .then(response => response.json())
-        .then(data => {
-            window.location.reload()
+            .then(response => response.json())
+            .then(data => {
+                window.location.reload()
+            })
+    }
+
+    function purchaseCart() {
+        const cid   = sessionStorage.getItem('cartId')
+        const token = sessionStorage.getItem('token')
+        if (!token || !cid) {
+        console.error('Token o cartId no encontrados')
+        alert('No se pudo terminar con el proceso de compra.')
+        return;
+    }
+        fetch(`/api/carts/${cid}/purchase`, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            }
         })
+            .then(response => response.json())
+            .then(data => {
+                alert('El proceso de compra ha sido exitoso')
+                window.location.reload()
+            })
     }
 </script>
