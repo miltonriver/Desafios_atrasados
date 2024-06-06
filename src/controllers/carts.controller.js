@@ -277,8 +277,7 @@ class CartController {
     purchaseProducts = async (req, res) => {
         try {
             const { cid } = req.params
-            const cart = await this.cartService.getCart(cid)
-            logger.debug(`Contenido del carrito comprado: ${JSON.stringify(cart, null, 2)}`)
+            let cart = await this.cartService.getCart(cid)
 
             if (!cart) {
                 return res.status(404).send({ status: 'error', message: 'No se puede encontrar el carrito seleccionado' })
@@ -303,6 +302,11 @@ class CartController {
                     purchaser: cart.userEmail
                 })
                 logger.info(`Compra realizada exitosamente, se ha generado el siguiente ticket: ${ticket}`)
+
+                const newCart = { _id: cid, userEmail: ticket.purchaser, products: []}
+                cart = await this.cartService.updateCart(cid, newCart)
+                cart.save()
+
                 return res.status(200).send({
                     status: 'success',
                     message: 'Compra completada exitosamente',

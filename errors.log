@@ -119,3 +119,17 @@ error: Error al procesar la compra:  ticket is not defined {"stack":"ReferenceEr
 error: Error al procesar la compra:  ticketsModel is not defined {"stack":"ReferenceError: ticketsModel is not defined\n    at purchaseProducts (file:///G:/Mis_cursos/DesafiosEntregablesBackEnd/Desafios_atrasados/src/controllers/carts.controller.js:299:32)\n    at processTicksAndRejections (node:internal/process/task_queues:95:5)"}
 error: Error al procesar la compra:  nanoid is not defined {"stack":"ReferenceError: nanoid is not defined\n    at purchaseProducts (file:///G:/Mis_cursos/DesafiosEntregablesBackEnd/Desafios_atrasados/src/controllers/carts.controller.js:299:27)\n    at processTicksAndRejections (node:internal/process/task_queues:95:5)"}
 error: Error al procesar la compra:  Class constructor TicketDto cannot be invoked without 'new' {"stack":"TypeError: Class constructor TicketDto cannot be invoked without 'new'\n    at TicketRepository.createTicket (file:///G:/Mis_cursos/DesafiosEntregablesBackEnd/Desafios_atrasados/src/services/tickets.repository.js:12:36)\n    at purchaseProducts (file:///G:/Mis_cursos/DesafiosEntregablesBackEnd/Desafios_atrasados/src/controllers/carts.controller.js:299:52)\n    at processTicksAndRejections (node:internal/process/task_queues:95:5)"}
+error: Error al intentar loguearse: 
+error: Error al intentar loguearse: 
+error: Error al intentar loguearse: 
+error: Error al intentar loguearse: 
+error: Error al intentar loguearse: 
+error: Error al intentar loguearse: 
+error: las credenciales no coinciden, no se puede iniciar sesión
+error: las credenciales no coinciden, no se puede iniciar sesión
+error: Error al intentar loguearse: 
+error: las credenciales no coinciden, no se puede iniciar sesión
+error: Error al procesar la compra:  userEmail is not defined {"stack":"ReferenceError: userEmail is not defined\n    at purchaseProducts (file:///G:/Mis_cursos/DesafiosEntregablesBackEnd/Desafios_atrasados/src/controllers/carts.controller.js:307:36)\n    at processTicksAndRejections (node:internal/process/task_queues:95:5)"}
+error: Error al procesar la compra:  cart.save is not a function {"stack":"TypeError: cart.save is not a function\n    at purchaseProducts (file:///G:/Mis_cursos/DesafiosEntregablesBackEnd/Desafios_atrasados/src/controllers/carts.controller.js:309:22)\n    at processTicksAndRejections (node:internal/process/task_queues:95:5)"}
+error: Error al procesar la compra:  cart.save is not a function {"stack":"TypeError: cart.save is not a function\n    at purchaseProducts (file:///G:/Mis_cursos/DesafiosEntregablesBackEnd/Desafios_atrasados/src/controllers/carts.controller.js:309:22)\n    at processTicksAndRejections (node:internal/process/task_queues:95:5)"}
+error: Error al procesar la compra:  Assignment to constant variable. {"stack":"TypeError: Assignment to constant variable.\n    at purchaseProducts (file:///G:/Mis_cursos/DesafiosEntregablesBackEnd/Desafios_atrasados/src/controllers/carts.controller.js:309:22)\n    at processTicksAndRejections (node:internal/process/task_queues:95:5)"}

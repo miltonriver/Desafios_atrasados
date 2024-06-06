@@ -1,7 +1,6 @@
 import passport from "passport";
 import passportJwt from "passport-jwt";
 import { configObject } from "./connectDB.js";
-import { logger } from "../utils/logger.js";
 
 const JWTStrategy = passportJwt.Strategy
 const ExtractJWT = passportJwt.ExtractJwt

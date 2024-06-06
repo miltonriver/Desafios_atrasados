@@ -182,8 +182,8 @@ export class ViewCartController {
         try {
             
             const { cid } = req.params
+            
             const cart    = await this.viewsRouterService.getBy({ _id: cid })
-            // logger.debug(`Id del producto dentro el cart: ${cart.products}`)
 
             let totalIndividualCompra = []
             let totalGeneralCompra    = 0

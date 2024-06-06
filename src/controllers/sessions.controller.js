@@ -69,6 +69,7 @@ class SessionController {
         try {
             const { username, password } = req.body
             const user = await this.sessionService.getBy(username)
+            logger.debug(`Contenido del usuario: ${JSON.stringify(user, null, 2)}`)
             
             if (!user) {
                 return res.send({
@@ -82,11 +83,12 @@ class SessionController {
                 return res.status(401).send('las credenciales no coinciden')
             } 
             const cartId = user.cartId
+            logger.debug(`Contenido inicial de cartId: ${JSON.stringify(cartId, null, 2)}`)
 
             const token = generateToken({
                 fullname: `${user.first_name} ${user.last_name}`,
                 username: username,
-                cartId:   cartId,
+                cartId:   cartId ? cartId._id : null,
                 role:     user.role,
                 id:       user._id
             })
@@ -128,10 +130,13 @@ class SessionController {
         
         try {
             res.clearCookie('cookieToken')
-            res.send({
-                status: 'success',
-                message: 'logout ok'
-            })
+            res.send(`
+                <script>
+                    sessionStorage.clear();
+                    alert('Logout success');
+                    window.location.href = '/login'
+                </script>
+            `)
         } catch (error) {
             logger.error(`Mensaje de error: ${error.message}`)
             res.send({
