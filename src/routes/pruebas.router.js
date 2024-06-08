@@ -1,7 +1,7 @@
-import { Router } from "express";
-import sendEmail from "../utils/sendEmail.js";
-import sendSms from "../utils/sendSMS.js";
-import { faker } from "@faker-js/faker";
+import { Router }    from "express";
+import { sendEmail } from "../utils/sendEmail.js";
+import sendSms       from "../utils/sendSMS.js";
+import { faker }     from "@faker-js/faker";
 
 const pruebasRouter = Router();
 

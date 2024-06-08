@@ -1,7 +1,7 @@
-import nodemailer from "nodemailer";
-import debug from "debug";
+import nodemailer       from "nodemailer";
+import debug            from "debug";
 import { configObject } from "../config/connectDB.js";
-import __dirname from "../utils.js";
+import __dirname        from "../utils.js";
 
 const transporterDebug = debug("nodemailer:transporter")
 let transport;
@@ -28,9 +28,7 @@ if (!transport) {
     console.error("El transporte de nodemailer no se ha configurado correctamente");
 }
 
-// to, subject, html
-
-const sendEmail = async ({service = '',to='', subject='', html=''}) => {
+export const sendEmail = async ({service = '',to='', subject='', html=''}) => {
     if (!transport) {
         console.error("transport no está definido");
         return
@@ -53,5 +51,25 @@ const sendEmail = async ({service = '',to='', subject='', html=''}) => {
     }
 }
 
+export const restartEmail = async ({service = '',to='', subject='', html=''}) => {
+    if (!transport) {
+        console.error("transport no está definido");
+        return
+    }
 
-export default sendEmail
+    try {
+        await transport.sendMail({
+            from: service,
+            to: to,
+            subject: subject,
+            html: html,
+            attachments: [{
+                filename: 'ases.png',
+                path: __dirname + '/utils/ases.png',
+                cid: 'ases'
+            }]
+        })
+    } catch (error) {
+        console.error('Error sending email:', error);
+    }
+}

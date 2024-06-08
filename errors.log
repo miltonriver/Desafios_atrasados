@@ -133,3 +133,21 @@ error: Error al procesar la compra:  userEmail is not defined {"stack":"Referenc
 error: Error al procesar la compra:  cart.save is not a function {"stack":"TypeError: cart.save is not a function\n    at purchaseProducts (file:///G:/Mis_cursos/DesafiosEntregablesBackEnd/Desafios_atrasados/src/controllers/carts.controller.js:309:22)\n    at processTicksAndRejections (node:internal/process/task_queues:95:5)"}
 error: Error al procesar la compra:  cart.save is not a function {"stack":"TypeError: cart.save is not a function\n    at purchaseProducts (file:///G:/Mis_cursos/DesafiosEntregablesBackEnd/Desafios_atrasados/src/controllers/carts.controller.js:309:22)\n    at processTicksAndRejections (node:internal/process/task_queues:95:5)"}
 error: Error al procesar la compra:  Assignment to constant variable. {"stack":"TypeError: Assignment to constant variable.\n    at purchaseProducts (file:///G:/Mis_cursos/DesafiosEntregablesBackEnd/Desafios_atrasados/src/controllers/carts.controller.js:309:22)\n    at processTicksAndRejections (node:internal/process/task_queues:95:5)"}
+error: las credenciales no coinciden, no se puede iniciar sesión
+error: Error al enviar el correo: destinatario is not defined
+error: Error al enviar el correo: invalid expiresIn option for string payload
+error: Error al enviar el correo: invalid expiresIn option for string payload
+error: Error al enviar el correo: invalid expiresIn option for string payload
+error: Error al enviar el correo: alert is not defined
+error: Error al enviar el correo: alert is not defined
+error: Error al enviar el correo: alert is not defined
+error: Error al enviar el correo: Cannot read properties of undefined (reading 'then')
+error: Error al intentar resetear el password: jwt is not defined
+error: Error al intentar resetear el password: jwt_private_key is not defined
+error: Error al intentar resetear el password: jwt_private_key is not defined
+error: las credenciales no coinciden, no se puede iniciar sesión
+error: las credenciales no coinciden, no se puede iniciar sesión
+error: las credenciales no coinciden, no se puede iniciar sesión
+error: las credenciales no coinciden, no se puede iniciar sesión
+error: las credenciales no coinciden, no se puede iniciar sesión
+error: las credenciales no coinciden, no se puede iniciar sesión

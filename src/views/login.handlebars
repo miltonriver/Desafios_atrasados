@@ -2,13 +2,13 @@
     <h1>Bienvenido Usuario!!</h1>
     <form id="loginForm" method="POST">
         <label for="username" class="field_register_form">Nombre de usuario</label>
-        <input type="text" name="username" id="username" placeholder="Ingrese su nombre de usuario" class="input_register_form">
+        <input type="text" name="username" id="username" placeholder="Ingrese su nombre de usuario" class="input_register_form" required>
         <label for="password" class="field_register_form">Contraseña</label>
         <div class="container">
-            <input type="password" name="password" placeholder="Ingrese su contraseña" class="input_register_form" id="password">
-            <i class='icon_show bx bx-show' autocomplete="current-password"></i>
+            <input type="password" name="password" placeholder="Ingrese su contraseña" class="input_register_form" id="password" autocomplete="current-password" required>
+            <i class='icon_show bx bx-show' ></i>
         </div>
-        <h4 class="h4_password"><a href="/api/sessions/restartPassword">¿Olvidó su contraseña?</a></h4>
+        <h4 class="h4_password"><a href="/api/sessions/restartpassword">¿Olvidó su contraseña?</a></h4>
         <button type="submit" class="delete_button">
             Ingresar
         </button>

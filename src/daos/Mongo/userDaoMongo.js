@@ -14,7 +14,11 @@ class UserDaoMongo {
     }
 
     async getBy(username){
-        return await userModel.findOne({username}).lean()
+        return await userModel.findOne({username})
+    }
+
+    async getByEmail(email){
+        return await userModel.findOne({email})
     }
 
     async create(newUser){
