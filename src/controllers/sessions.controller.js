@@ -241,7 +241,25 @@ class SessionController {
 
     newPassword = async (req, res) => {
         try {
-            const { token, newPassword, newPasswordConfirmed } = req.body
+            const { token, email, newPassword, newPasswordConfirmed } = req.body
+            const decodedToken = jwt.verify(token, configObject.jwt_private_Key)
+            if (!decodedToken) {
+                return res.status(400).send({
+                    status: "error",
+                    message: "No hay token de autorización"
+                })
+            }
+
+            const user = await this.sessionService.getByEmail(decodedToken.email)
+            logger.debug(`contenido de user: ${user}`)
+
+            if(email !== user.email) {
+                return res.status(400).send({
+                    status: "error",
+                    message: "El email no pertenece al usuario"
+                })
+            }
+
             if (!newPassword || !newPasswordConfirmed) {
                 return res.status(400).send({
                     status: "error",
@@ -255,16 +273,7 @@ class SessionController {
                 })
             }
 
-            const decodedToken = jwt.verify(token, configObject.jwt_private_Key)
-            if (!decodedToken) {
-                return res.status(400).send({
-                    status: "error",
-                    message: "No hay token de autorización"
-                })
-            }
-
-            const user = await this.sessionService.getByEmail(decodedToken.email)
-            logger.debug(`contenido de user: ${user}`)
+            
 
             const isValid = isValidPassword(newPassword, user.password)
             if(isValid) {
@@ -275,7 +284,6 @@ class SessionController {
             }
 
             const newPasswordHash = createHash(newPassword)
-            logger.debug(`Contenido del password nuevo hasheado: ${newPasswordHash}`)
             user.password = newPasswordHash
             await user.save()
 
