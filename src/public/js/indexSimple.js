@@ -169,7 +169,11 @@ function addProductToCart(productId, quantity = 1) {
     const cartId = sessionStorage.getItem('cartId')
     if (!token || !cartId) {
         console.error('Token o cartId no encontrados')
-        alert('No se pudo agregar el producto al carrito.')
+        Swal.fire({
+            title: 'Error!',
+            text:  `Error, no se pudo agregar el producto al carrito`,
+            icon:  'error'
+        })
         return;
     }
 
@@ -186,22 +190,22 @@ function addProductToCart(productId, quantity = 1) {
         })
         .then(data => {
             if (data.status === "success") {
-                alert(`${quantity} productos han sido agregado al carrito de forma exitosa`)
-                window.location.reload()
+                Swal.fire({
+                    title: 'Producto agregado!!',
+                    text:  `${quantity} productos han sido agregado al carrito de forma exitosa`,
+                    icon:  'success'
+                }).then(() => {
+                    window.location.reload()
+                })                
             } else {
-                alert('Error al agregar el producto al carrito')
+                Swal.fire({
+                    title: 'Error!',
+                    text:  `Error al agregar el producto al carrito`,
+                    icon:  'error'
+                })
             }
         })
         .catch(error => {
             console.error('Error:', error)
         })
 }
-
-// socket.on('stockUpdated', (data) => {
-//     const { productId, newStock } = data
-//     const stockElement = document.querySelector(`#quantity-${productId}`)
-//     console.log(`Contenido de stockElement: ${stockElement}`)
-//     if (stockElement) {
-//         stockElement.max = newStock
-//     }
-// })

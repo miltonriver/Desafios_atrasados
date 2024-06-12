@@ -6,15 +6,15 @@ import authorization     from "../middleware/authorization.middleware.js";
 const sessionsRouter = Router()
 const sessionController = new SessionController()
 
-sessionsRouter.post('/register',             sessionController.registerUser)
+sessionsRouter.post('/mail',                 sessionController.emailRestart)
 sessionsRouter.post('/login',                sessionController.loginUser)
-sessionsRouter.get ('/failregister',         sessionController.failRegister)
 sessionsRouter.get ('/logout',               sessionController.logoutUser)
-sessionsRouter.get ('/faillogin',            sessionController.failLogin)
 sessionsRouter.get ('/current',              passportCall('jwt'), authorization('admin'), sessionController.tokenMiddleware)//Estrategia usada con Passport-jwt--------------------
+sessionsRouter.post('/register',             sessionController.registerUser)
+sessionsRouter.get ('/faillogin',            sessionController.failLogin)
+sessionsRouter.get ('/failregister',         sessionController.failRegister)
+sessionsRouter.post('/resetpassword',        sessionController.newPassword)
 sessionsRouter.get ('/restartpassword',      sessionController.restartPassword)
 sessionsRouter.get ('/resetpassword/:token', sessionController.resetPassword)
-sessionsRouter.post('/resetpassword',        sessionController.newPassword)
-sessionsRouter.post('/mail',                 sessionController.emailRestart)
 
 export default sessionsRouter

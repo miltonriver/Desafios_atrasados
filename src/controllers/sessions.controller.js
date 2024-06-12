@@ -1,13 +1,17 @@
-import DAOFactory       from "../daos/factory.js";
-import { userService,
-        cartService}    from "../services/index.js";
-import { isValidPassword,
-        createHash }    from "../utils/hashBcrypt.js";
-import generateToken    from "../utils/jsonwebtoken.js";
-import { logger }       from "../utils/logger.js";
-import UserDto          from "../dto/userDto.js";
+import DAOFactory from "../daos/factory.js";
+import {
+    userService,
+    cartService
+} from "../services/index.js";
+import {
+    isValidPassword,
+    createHash
+} from "../utils/hashBcrypt.js";
+import generateToken from "../utils/jsonwebtoken.js";
+import { logger } from "../utils/logger.js";
+import UserDto from "../dto/userDto.js";
 import { restartEmail } from "../utils/sendEmail.js";
-import jwt              from "jsonwebtoken";
+import jwt from "jsonwebtoken";
 import { configObject } from "../config/connectDB.js";
 
 class SessionController {
@@ -130,24 +134,37 @@ class SessionController {
     }
 
     logoutUser = (req, res) => {
-
         try {
-            res.clearCookie('cookieToken')
+            res.clearCookie('cookieToken');
             res.send(`
-                <script>
-                    sessionStorage.clear();
-                    alert('Logout success');
-                    window.location.href = '/login'
-                </script>
-            `)
+                <html>
+                    <head>
+                        <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+                    </head>
+                    <body>
+                        <script>
+                            sessionStorage.clear();
+                            Swal.fire({
+                                title: 'Logout success',
+                                text: 'La sesión se ha cerrado correctamente',
+                                icon: 'success',
+                                confirmButtonText: 'OK'
+                            }).then(() => {
+                                window.location.href = '/login';
+                            });
+                        </script>
+                    </body>
+                </html>
+            `);
         } catch (error) {
-            logger.error(`Mensaje de error: ${error.message}`)
+            logger.error(`Mensaje de error: ${error.message}`);
             res.send({
                 status: "error",
                 error: error.message
-            })
+            });
         }
     }
+    
 
     failLogin = async (req, res) => {
         try {
@@ -257,7 +274,7 @@ class SessionController {
             const user = await this.sessionService.getByEmail(decodedToken.email)
             logger.debug(`contenido de user: ${user}`)
 
-            if(email !== user.email) {
+            if (email !== user.email) {
                 return res.status(400).send({
                     status: "error",
                     message: "El email no pertenece al usuario"
@@ -277,10 +294,10 @@ class SessionController {
                 })
             }
 
-            
+
 
             const isValid = isValidPassword(newPassword, user.password)
-            if(isValid) {
+            if (isValid) {
                 return res.status(400).send({
                     status: "error",
                     message: "La contraseña nueva no puede ser igual que la anterior, por favor elija una nueva contraseña"

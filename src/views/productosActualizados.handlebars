@@ -1,7 +1,7 @@
 {{#if IsAdmin}}
 <header>
     <h1>Bienvenido a la página de Administrador del sitio</h1>
-    <h3 class="identification_tittle">Usted se ha identificado como: <i>{{username}}</i></h3>
+    <h3 class="identification_tittle">Usuario identificado como: <i>{{username}}</i></h3>
     <h3 class="identification_tittle">Página exclusiva de Administrador</h3>
     <div class="icon_cart_container">
         <a href="/api/sessions/logout" class="delete_button">Cerrar sesión</a>
@@ -10,7 +10,7 @@
 {{else}}
 <header>
     <h1>Bienvenido a nuestra tienda!!</h1>
-    <h3 class="identification_tittle">Usted se ha identificado como: <i>{{username}}</i></h3>
+    <h3 class="identification_tittle">Usuario identificado como: <i>{{username}}</i></h3>
     <div class="icon_cart_container">
         <i class='icon_cart bx bx-cart' id="cart_route">Cart</i>
         <a href="/api/sessions/logout" class="delete_button">Cerrar sesión</a>
@@ -113,6 +113,7 @@
 <link rel="stylesheet" href="/css/index.css">
 <script src="/socket.io/socket.io.js"></script>
 <script src="/js/indexSimple.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
     document.addEventListener('DOMContentLoaded', function() {
         const role     = sessionStorage.getItem('role');

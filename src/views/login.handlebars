@@ -46,17 +46,16 @@
             if (data.status === 'error') {
                 Swal.fire({
                     title: 'Error!',
-                    text: data.message,
-                    icon: 'error'
+                    text:  data.message,
+                    icon:  'error'
                 })
             } else {
                 Swal.fire({
-                    title: 'Exito!',
-                    text: `Login exitoso, bienvenido ${loginData.username}`,
-                    icon: 'success'
-                }),
-                    setTimeout(() => {
-                        if (data.token) {
+                    title: 'Login success!!',
+                    text:  `Ingresando a su cuenta, bienvenido ${loginData.username}`,
+                    icon:  'success'
+                }).then(() => {
+                    if (data.token) {
                             sessionStorage.setItem('token', data.token)
                             const decodedToken = jwt_decode(data.token)
                             sessionStorage.setItem('role', decodedToken.role)
@@ -64,7 +63,8 @@
                             sessionStorage.setItem('username', decodedToken.username)
                             window.location.href = '/productosactualizados'
                         }
-                    }, 2000)
+                })
+                    
             }
 
         } catch (error) {
