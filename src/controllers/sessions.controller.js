@@ -74,15 +74,19 @@ class SessionController {
             const user = await this.sessionService.getBy(username)
 
             if (!user) {
+                logger.error('El usuario no existe o no está registrado, no se puede iniciar sesión')
                 return res.send({
                     status: "error",
-                    error: "El usuario no existe o no está registrado"
+                    message: "El usuario no existe o no está registrado",
                 })
             }
 
             if (!isValidPassword(password, user.password)) {
                 logger.error('las credenciales no coinciden, no se puede iniciar sesión')
-                return res.status(401).send('las credenciales no coinciden')
+                return res.status(401).send({
+                    status: "error",
+                    message: 'las credenciales no coinciden',
+                })
             }
             const cartId = user.cartId
 
@@ -102,7 +106,7 @@ class SessionController {
                 secure: false
             })
 
-            res.json({ token, role: user.role })
+            res.status(200).json({ token, role: user.role })
 
         } catch (error) {
             logger.error('Error al intentar loguearse: ', error.messsage)

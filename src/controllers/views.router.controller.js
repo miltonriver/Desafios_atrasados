@@ -103,16 +103,15 @@ export class ViewProductController {
     }
 
     productosActualizados = async (req, res) => {
-
         try {
-            const { username, role, cartId } = req.query
             const products = await this.viewsRouterService.get()
+            const { role, username } = req.user
+
             res.render('productosActualizados', {
-                username:  username,
                 productos: products,
-                cartId:    cartId,
-                IsAdmin:   role === 'admin',
-                style:     'index.css'
+                IsAdmin: role === 'admin',
+                username,
+                style: 'index.css'
             })
         } catch (error) {
             logger.error("Error al intentar obtener la lista de productos actualizados: ", error);

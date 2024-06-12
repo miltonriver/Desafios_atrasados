@@ -5,8 +5,6 @@ import { logger } from "../utils/logger.js";
 
 const { mode } = program.opts()
 
-// dotenv.config({ path: './.env.development' })
-
 dotenv.config({
     path: mode === "development" ? "./.env.development" : "./.env.production"
 })

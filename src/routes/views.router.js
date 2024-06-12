@@ -3,6 +3,7 @@ import { ViewUserController,
          ViewProductController, 
          ViewCartController }  from "../controllers/views.router.controller.js";
 import passportCall            from "../middleware/passportCall.js";
+import { authTokenMiddleware } from "../utils/jsonwebtoken.js";
 
 const viewsRouter           = Router()
 const viewUserController    = new ViewUserController()
@@ -18,6 +19,6 @@ viewsRouter.get('/chatbox',               viewUserController.chatbox)
 viewsRouter.get('/register',              viewUserController.register)
 viewsRouter.get('/products',              viewProductController.products)
 viewsRouter.get('/realtimeproducts',      viewProductController.realTimeProducts)
-viewsRouter.get('/productosactualizados', passportCall('jwt'), viewProductController.productosActualizados)
+viewsRouter.get('/productosactualizados', passportCall('jwt'), authTokenMiddleware, viewProductController.productosActualizados)
 
 export default viewsRouter

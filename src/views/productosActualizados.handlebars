@@ -108,17 +108,25 @@
     </div>
     <a href="/chatbox" class="chat_link">Chatea con otros usarios de nuestra comunidad</a>
     {{/if}}
-
 </div>
 
 <link rel="stylesheet" href="/css/index.css">
-<script src="https://cdn.jsdelivr.net/npm/jwt-decode@3.1.2/build/jwt-decode.min.js"></script>
 <script src="/socket.io/socket.io.js"></script>
 <script src="/js/indexSimple.js"></script>
 <script>
-    const cart = document.getElementById('cart_route')
-    cart.addEventListener('click', () => {
-        const cid = sessionStorage.getItem('cartId')
-        window.location.href = `/cart/${cid}`
+    document.addEventListener('DOMContentLoaded', function() {
+        const role     = sessionStorage.getItem('role');
+        const cartId   = sessionStorage.getItem('cartId');
+        const username = sessionStorage.getItem('username');
+        const isAdmin  = role === 'admin';
+
+        document.querySelectorAll('.identification_tittle i').forEach(element => element.textContent = username);
+        document.querySelectorAll('.icon_cart_container i').forEach(element => {
+            if (element.id === "cart_route") {
+                element.addEventListener('click', () => {
+                    window.location.href = `/cart/${cartId}`;
+                });
+            }
+        });
     })
 </script>

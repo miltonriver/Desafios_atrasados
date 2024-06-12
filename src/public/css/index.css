@@ -304,6 +304,11 @@ li{
     margin-top: 10px;
 }
 
+.link_into_theCart{
+    padding: 10px 10px 10px 0;
+    margin-top: 20px;
+}
+
 .btn-outline-success{
     padding: 4px 8px;
     border-radius: 5px;
