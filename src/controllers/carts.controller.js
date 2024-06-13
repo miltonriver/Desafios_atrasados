@@ -234,7 +234,6 @@ class CartController {
             const { cid, pid } = req.params
             const { quantity } = req.body
             const cart = await this.cartService.getCart(cid)
-            const product = await productService.getProduct(pid)
 
             if (!cart) {
                 return res.status(404).send({
@@ -251,20 +250,24 @@ class CartController {
             }
 
             const productIndex = cart.products.findIndex(
-                (product) => String(product._id) === String(pid)
+                (p) => String(p.product._id) === String(pid)
             );
-            product.stock += parseInt(quantity)
-            await product.save()
 
-            cart.products.splice(productIndex, 1);
+            logger.debug(`indice del producto: ${productIndex}`)
+            
+            cart.products.splice(productIndex, 1)
             await cart.save();
 
+            const product = await productService.getProduct(pid)
+            product.stock += parseInt(quantity)
+            await product.save()
+            
             res.status(200).send({
                 status: "success",
                 message: `El producto con ID ${pid} ha sido eliminado del carrito con ID ${cid}.`,
                 result: cart
             })
-            logger.info(`El producto con ID ${pid} ha sido eliminado del carrito con ID ${cid}.`)
+            logger.info(`El producto ${product.title} ha sido eliminado del carrito con ID ${cid}.`)
         } catch (error) {
             res.status(404).send({
                 status: 'error',
