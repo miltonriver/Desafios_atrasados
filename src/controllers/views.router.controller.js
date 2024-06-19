@@ -80,7 +80,6 @@ export class ViewProductController {
             }
 
             const products = await this.viewsRouterService.get()
-            // logger.debug(`contenido de products: ${products}`)
 
             const productsStringIds = products.map(product => {
                 const productCopy = { ...product };

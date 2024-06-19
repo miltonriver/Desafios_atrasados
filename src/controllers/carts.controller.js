@@ -81,7 +81,14 @@ class CartController {
             if (cart.products.length < 0) {
                 return res.status(400).send({
                     status: 'error',
-                    message: 'El carrito está vacío',
+                    message: 'El carrito está vacío'
+                })
+            }
+
+            if (product.stock < quantity) {
+                return res.status(400).send({
+                    status: 'error',
+                    message: 'El stock del producto seleccionado es mayor al existente'
                 })
             }
 
@@ -92,6 +99,7 @@ class CartController {
             if (productIndexInCart > -1) {
                 const newQuantity = parseInt(cart.products[productIndexInCart].quantity) + parseInt(quantity)
                 cart.products[productIndexInCart].quantity = newQuantity
+                
             } else {
                 const productToAdd = {
                     product: pid,
@@ -110,6 +118,7 @@ class CartController {
                 result: cart
             })
             logger.info(`El producto de ID "${pid}" ha sido agregado al carrito con éxito`)
+            
 
         } catch (error) {
             res.status(404).send({

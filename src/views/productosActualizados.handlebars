@@ -99,9 +99,7 @@
                 <p>Stock:         <b>  {{this.stock}}      </b></p>
                 <p>ID:            <b>  {{this._id}}        </b></p>
                 <input type="number" id="quantity-{{this._id}}" value="1" min="1" max="{{this.stock}}" />
-                <button type="button" class="add_button"
-                    onclick='addProductToCart("{{this._id}}", document.getElementById("quantity-{{this._id}}").value)'>Agregar
-                    al carrito</button>
+                <button type="button" class="add_button" onclick='addProductToCart("{{this._id}}", document.getElementById("quantity-{{this._id}}").value)'>Agregar al carrito</button>
             </li>
         </div>
         {{/each}}

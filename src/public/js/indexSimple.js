@@ -200,7 +200,7 @@ function addProductToCart(productId, quantity = 1) {
             } else {
                 Swal.fire({
                     title: 'Error!',
-                    text:  `Error al agregar el producto al carrito`,
+                    text:  `Error al agregar el producto al carrito: ${data.message}`,
                     icon:  'error'
                 })
             }
