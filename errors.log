@@ -172,3 +172,5 @@ error: Error al intentar resetear el password: jwt expired
 error: Error al intentar resetear el password: jwt expired
 error: Error al intentar resetear el password: jwt expired
 error: Error al intentar resetear el password: jwt expired
+error: Error al crear el producto: E11000 duplicate key error collection: ecommerce.products index: title_1 dup key: { title: "producto 4" }
+error: Error al crear el producto: E11000 duplicate key error collection: ecommerce.products index: code_1 dup key: { code: "abc45644645" }

@@ -261,8 +261,6 @@ class CartController {
             const productIndex = cart.products.findIndex(
                 (p) => String(p.product._id) === String(pid)
             );
-
-            logger.debug(`indice del producto: ${productIndex}`)
             
             cart.products.splice(productIndex, 1)
             await cart.save();

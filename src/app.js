@@ -1,20 +1,19 @@
-// import logger               from "morgan";
-// import viewsRouter          from "./routes/views.router.js"
-import express                 from "express";
-import appRouter               from "./routes/index.js";
-import handlebars              from "express-handlebars";
+import express from "express";
+import appRouter from "./routes/index.js";
+import handlebars from "express-handlebars";
 import __dirname, { uploader } from "./utils.js";
-import { Server }              from "socket.io";
-import productsModel           from "./daos/Mongo/models/products.model.js";
-import passport                from "passport";
-import initializePassportJWT   from "./config/passport.configJWT.js";
-import dotenv                  from "dotenv";
-import handlerError            from "./middleware/errors/index.js";
-import addLogger, { logger }   from "./utils/logger.js";
-import { configObject }        from "./config/connectDB.js";
-import cookieParser            from "cookie-parser";
-import messagesModel           from "./daos/Mongo/models/messages.model.js";
-import usersModel              from "./daos/Mongo/models/users.model.js";
+import { Server } from "socket.io";
+import productsModel from "./daos/Mongo/models/products.model.js";
+import passport from "passport";
+import initializePassportJWT from "./config/passport.configJWT.js";
+import dotenv from "dotenv";
+import handlerError from "./middleware/errors/index.js";
+import addLogger, { logger } from "./utils/logger.js";
+import { configObject } from "./config/connectDB.js";
+import cookieParser from "cookie-parser";
+import messagesModel from "./daos/Mongo/models/messages.model.js";
+import usersModel from "./daos/Mongo/models/users.model.js";
+import { nanoid } from "nanoid";
 
 dotenv.config()
 
@@ -52,7 +51,6 @@ app.use((req, res, next) => {
 app.engine('handlebars', hbs.engine)
 app.set("views", __dirname + "/views")
 app.set("view engine", "handlebars")
-// app.use   ('/', viewsRouter)
 
 app.post("/file", uploader.single('myFile'), (req, res) => {
     res.send("imagen subida")
@@ -74,10 +72,55 @@ io.on('connection', socket => {
     logger.info("El cliente está conectado")
 
     socket.on("addProduct", async (productData) => {
-        const newProduct = await productsModel.create(productData)
-        const productList = await productsModel.find()
-        logger.debug(`Producto creado: ${newProduct}`)
-        io.emit('productsList', productList)
+        try {
+            logger.debug(`Contenido del producto a agregar: ${JSON.stringify(productData, null, 2)}`)
+
+            for (let key in productData) {
+                if (typeof productData[key] === 'string') {
+                    productData[key] = productData[key].trim()
+                }
+                if (productData[key] === '') {
+                    delete productData[key]
+                }
+            }
+
+            if (productData.price) {
+                productData.price = parseFloat(productData.price)
+            }
+            if (productData.stock) {
+                productData.stock = parseInt(productData.stock, 10)
+            }
+
+            if (!productData.title) {
+                logger.warning(`El título del producto es obligatorio`)
+                socket.emit('error', 'Falta el título del producto, por favor coloque un nombre que no exista en la base de datos.')
+                return
+            }
+            if (!productData.price || isNaN(productData.price) || productData.price <= 0) {
+                logger.warning(`El precio del artículo es obligatorio y tiene que ser mayor que 0`)
+                socket.emit('error', 'Debe colocar un valor numérico positivo en el campo precio.')
+                return
+            }
+            if (!productData.stock || isNaN(productData.stock) || productData.stock <= 0) {
+                logger.warning(`El producto a agregar debe ser un valor numérico entero mayor que 0`)
+                socket.emit('error', 'El stock del producto está vacío o no es un valor numérico permitido.')
+                return
+            }
+
+            const newProduct = await productsModel.create(productData)
+            const productList = await productsModel.find()
+            logger.debug(`Producto creado: ${newProduct}`)
+            io.emit('productsList', productList)
+        } catch (error) {
+            let errorMessage;
+            if (error.code === 11000) {
+                errorMessage = 'El título o código del producto ya existe. Por favor, elija otro.'
+            } else {
+                errorMessage = 'Se ha producido un error al agregar el producto. Por favor, inténtelo nuevamente.'
+            }
+            logger.error(`Error al crear el producto: ${error.message}`)
+            socket.emit('error', errorMessage)
+        }
     })
 
     socket.on("deleteProduct", async (productId) => {

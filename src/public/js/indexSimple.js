@@ -42,6 +42,14 @@ function redirectToLogin() {
     window.location.href = "/login";
 }
 
+socket.on('error', (errorMessage) => {
+    Swal.fire({
+        icon: 'error',
+        title: 'Error',
+        text: errorMessage
+    });
+})
+
 function addProduct() {
 
     let title = document.getElementById("title").value;
@@ -77,6 +85,11 @@ socket.on('productsList', (productList) => {
                 <p>Stock: <b>${product.stock}</b></p>
                 <p>Id: <b>${product._id}</b></p>
                 <button type="button" class="delete_button" onclick='deleteProduct("${product._id}")'>Eliminar</button>
+                <button type="button" class="add_button modal_add_button" id="open_modal_update_product_${product._id}}">Actualizar</button>
+                <dialog id="modal_${product._id}" class="modal">
+                    <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Incidunt eaque praesentium cupiditate ullam. Voluptates quidem blanditiis debitis perspiciatis, dignissimos neque! Alias, unde! Repellendus molestias, in possimus impedit ipsam veniam recusandae.</p>
+                    <button type="button" class="delete_button" onclick="closeModal('${product._id}')">Cerrar</button>
+                </dialog>
             </li>
         </div>
     `).join('');

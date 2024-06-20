@@ -1,5 +1,6 @@
+import { nanoid }        from "nanoid";
 import { Schema, model } from "mongoose";
-import mongoosePaginate from "mongoose-paginate-v2";
+import mongoosePaginate  from "mongoose-paginate-v2";
 
 const productsCollection = 'products'
 
@@ -20,13 +21,14 @@ const productSchema = new Schema({
     },
     thumbnail: {
         type: String,
-        default: "none"
+        default: "Producto sin imagen"
     },
     code: {
         type: String,
         required: true,
         unique: true,
-        index: true
+        index: true,
+        default: () => nanoid(12)
     },
     stock: {
         type: Number,
