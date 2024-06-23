@@ -2,14 +2,15 @@
     <h1>Bienvenido Usuario!!</h1>
     <form id="loginForm" method="POST">
         <label for="username" class="field_register_form">Nombre de usuario</label>
-        <input type="text" name="username" id="username" placeholder="Ingrese su nombre de usuario"
-            class="input_register_form" required>
+        <input type="text" name="username" id="username" placeholder="Ingrese su nombre de usuario" class="input_register_form" required>
         <label for="password" class="field_register_form">Contraseña</label>
         <div class="container">
             <input type="password" name="password" placeholder="Ingrese su contraseña" class="input_register_form" id="password" autocomplete="current-password" required>
             <i class='icon_show bx bx-show'></i>
         </div>
         <h4 class="h4_password"><a href="/api/sessions/restartpassword">¿Olvidó su contraseña?</a></h4>
+        <h4 class="h4_title">¿Aún no tienes cuenta?</h4>
+        <h4 class="h4_password"><a href="/register">Registrate acá</a></h4>
         <button type="submit" class="delete_button">
             Ingresar
         </button>
@@ -19,6 +20,27 @@
 <script src="https://cdn.jsdelivr.net/npm/jwt-decode@3.1.2/build/jwt-decode.min.js"></script>
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
 <script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const pass = document.getElementById("pass");
+        const icon = document.querySelector(".icon_show");
+
+        if (pass && icon) {
+            icon.addEventListener("click", e => {
+                if (pass.type === "password") {
+                    pass.type = "text";
+                    icon.classList.remove('bx-show');
+                    icon.classList.add('bxs-hide');
+                } else {
+                    pass.type = "password";
+                    icon.classList.add('bx-show');
+                    icon.classList.remove('bxs-hide');
+                }
+            });
+        } else {
+            console.error("Elements not found");
+        }
+    })
+
     document.getElementById('loginForm').addEventListener('submit', async function (event) {
         event.preventDefault();
 
@@ -45,25 +67,25 @@
             if (data.status === 'error') {
                 Swal.fire({
                     title: 'Error!',
-                    text:  data.message,
-                    icon:  'error'
+                    text: data.message,
+                    icon: 'error'
                 })
             } else {
                 Swal.fire({
                     title: 'Login success!!',
-                    text:  `Ingresando a su cuenta, bienvenido ${loginData.username}`,
-                    icon:  'success'
+                    text: `Ingresando a su cuenta, bienvenido ${loginData.username}`,
+                    icon: 'success'
                 }).then(() => {
                     if (data.token) {
-                            sessionStorage.setItem('token', data.token)
-                            const decodedToken = jwt_decode(data.token)
-                            sessionStorage.setItem('role', decodedToken.role)
-                            sessionStorage.setItem('cartId', decodedToken.cartId)
-                            sessionStorage.setItem('username', decodedToken.username)
-                            window.location.href = '/productosactualizados'
-                        }
+                        sessionStorage.setItem('token', data.token)
+                        const decodedToken = jwt_decode(data.token)
+                        sessionStorage.setItem('role', decodedToken.role)
+                        sessionStorage.setItem('cartId', decodedToken.cartId)
+                        sessionStorage.setItem('username', decodedToken.username)
+                        window.location.href = '/productosactualizados'
+                    }
                 })
-                    
+
             }
 
         } catch (error) {

@@ -20,5 +20,6 @@ viewsRouter.get ('/register',              viewUserController.register)
 viewsRouter.get ('/cart/:cid',             viewCartController.cartView)
 viewsRouter.get ('/realtimeproducts',      viewProductController.realTimeProducts)
 viewsRouter.get ('/productosactualizados', passportCall('jwt'), authTokenMiddleware, viewProductController.productosActualizados)
+viewsRouter.post('/productosactualizados', passportCall('jwt'), authTokenMiddleware, viewProductController.updateProduct)
 
 export default viewsRouter

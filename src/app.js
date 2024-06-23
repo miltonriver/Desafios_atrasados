@@ -13,7 +13,7 @@ import { configObject } from "./config/connectDB.js";
 import cookieParser from "cookie-parser";
 import messagesModel from "./daos/Mongo/models/messages.model.js";
 import usersModel from "./daos/Mongo/models/users.model.js";
-import { nanoid } from "nanoid";
+import ProductDaoMongo from "./daos/Mongo/productsDaoMongo.js";
 
 dotenv.config()
 
@@ -67,6 +67,7 @@ const httpServer = app.listen(PORT, (err) => {
 const io = new Server(httpServer)
 
 let mensajes = []
+const productDao = new ProductDaoMongo()
 
 io.on('connection', socket => {
     logger.info("El cliente está conectado")

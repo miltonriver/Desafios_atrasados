@@ -1,8 +1,8 @@
-import { productService } from "../services/index.js";
-import CustomError from "../services/errors/CustomError.js";
+import { productService }       from "../services/index.js";
+import CustomError              from "../services/errors/CustomError.js";
 import generateProductErrorInfo from "../services/errors/info.js";
-import EErrors from "../services/errors/enums.js";
-import { logger } from "../utils/logger.js";
+import EErrors                  from "../services/errors/enums.js";
+import { logger }               from "../utils/logger.js";
 
 // const products = []
 class ProductController {

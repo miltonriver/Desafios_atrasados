@@ -26,16 +26,35 @@
         {{#each productos}}
         <div>
             <li>
-                Nombre: <b> {{this.title}} </b>
+                Nombre:           <b> {{this.title}}       </b>
                 <p><b>Descripción:</b> {{this.description}}</p>
-                <p>Precio: <b>$ {{this.price}} </b></p>
-                <p>Código: <b> {{this.code}} </b></p>
-                <p>Stock: <b> {{this.stock}} </b></p>
-                <p>Id: <b> {{this._id}} </b></p>
+                <p>Precio:        <b>$ {{this.price}}  </b></p>
+                <p>Código:        <b> {{this.code}}    </b></p>
+                <p>Stock:         <b> {{this.stock}}   </b></p>
+                <p>Id:            <b> {{this._id}}     </b></p>
                 <button type="button" class="delete_button" onclick='deleteProduct("{{this._id}}")'>Eliminar</button>
                 <button type="button" class="add_button modal_add_button" id="open_modal_update_product_{{this._id}}">Actualizar</button>
                 <dialog id="modal_{{this._id}}" class="modal">
-                    <p>Lorem ipsum dolor, sit amet consectetur adipisicing elit. Incidunt eaque praesentium cupiditate ullam. Voluptates quidem blanditiis debitis perspiciatis, dignissimos neque! Alias, unde! Repellendus molestias, in possimus impedit ipsam veniam recusandae.</p>
+                    <form action="/productosactualizados" class="form_modal" method="POST">
+                        <input type="hidden" name="_id" value="{{this._id}}">
+                        <label for="title" class="field_modal_form">Nombre del producto</label>
+                        <input type="text" name="title" placeholder="Ingrese el nombre del producto" class="input_modal_form" id="modal_title_${{this._id}}">
+                        <label for="description" class="field_modal_form">Descripción</label>
+                        <input type="text" name="description" placeholder="Ingrese la descripción del producto" class="input_modal_form" id="modal_description_${{this._id}}">
+                        <label for="price" class="field_modal_form">Precio</label>
+                        <input type="text" name="price" placeholder="Ingrese el precio del producto" class="input_modal_form" id="modal_price_${{this._id}}">
+                        <label for="thumbnail" class="field_modal_form">Imagen</label>
+                        <input type="text" name="thumbnail" placeholder="Ingrese una imagen descriptiva" class="input_modal_form" id="modal_thumbnail_${{this._id}}">
+                        <label for="code" class="field_modal_form">Código</label>
+                        <input type="text" name="code" placeholder="Ingrese el código del producto" class="input_modal_form" id="modal_code_${{this._id}}">
+                        <label for="stock" class="field_modal_form">Stock</label>
+                        <input type="text" name="stock" placeholder="Ingrese un número para el stock" class="input_modal_form" id="modal_stock_${{this._id}}">
+                        <label for="status" class="field_modal_form">Status</label>
+                        <input type="text" name="status" placeholder="Ingrese el status del producto" class="input_modal_form" id="modal_status_${{this._id}}">
+                        <label for="category" class="field_modal_form">Categoría</label>
+                        <input type="text" name="category" placeholder="Ingrese la categoría del producto" class="input_modal_form" id="modal_category_${{this._id}}">
+                        <input value="update" type="submit" class="add_button">
+                    </form>
                     <button type="button" class="delete_button" onclick="closeModal('{{this._id}}')">Cerrar</button>
                 </dialog>
             </li>
@@ -49,43 +68,35 @@
         <form action="/realTimeProducts" method="post" id="form_add" onsubmit="addProduct(); return false;">
             <li class="add_product_element">
                 <label for="title" class="add_product_label">Nombre del Producto:</label>
-                <input type="text" class="add_product_input" id="title" name="product_title"
-                    placeholder="El título del producto debe ser único" required/>
+                <input type="text" class="add_product_input" id="title" name="product_title" placeholder="El título del producto debe ser único" required />
             </li>
             <li class="add_product_element">
                 <label for="description" class="add_product_label">Descripción:</label>
-                <input type="text" class="add_product_input" id="description" name="product_description"
-                    placeholder="Describa brevemente el producto" />
+                <input type="text" class="add_product_input" id="description" name="product_description" placeholder="Describa brevemente el producto" />
             </li>
             <li class="add_product_element">
                 <label for="price" class="add_product_label">Precio:</label>
-                <input type="text" class="add_product_input" id="price" name="product_price"
-                    placeholder="Ingrese un valor numérico" required/>
+                <input type="text" class="add_product_input" id="price" name="product_price" placeholder="Ingrese un valor numérico" required />
             </li>
             <li class="add_product_element">
                 <label for="thumbnail" class="add_product_label">Imagen:</label>
-                <input type="text" class="add_product_input" id="thumbnail" name="product_thumbnail"
-                    placeholder="Imagen descriptiva del producto" />
+                <input type="text" class="add_product_input" id="thumbnail" name="product_thumbnail" placeholder="Imagen descriptiva del producto" />
             </li>
             <li class="add_product_element">
                 <label for="code" class="add_product_label">Código:</label>
-                <input type="text" class="add_product_input" id="code" name="product_code"
-                    placeholder="El código debe ser único por cada producto" required/>
+                <input type="text" class="add_product_input" id="code" name="product_code" placeholder="El código debe ser único por cada producto" required />
             </li>
             <li class="add_product_element">
                 <label for="stock" class="add_product_label">Stock:</label>
-                <input type="text" class="add_product_input" id="stock" name="product_stock"
-                    placeholder="Ingrese un valor numérico" required/>
+                <input type="text" class="add_product_input" id="stock" name="product_stock" placeholder="Ingrese un valor numérico" required />
             </li>
             <li class="add_product_element">
                 <label for="status" class="add_product_label">Status:</label>
-                <input type="bool" class="add_product_input" id="status" name="product_status"
-                    placeholder="El valor por defecto es true" />
+                <input type="bool" class="add_product_input" id="status" name="product_status" placeholder="El valor por defecto es true" />
             </li>
             <li class="add_product_element">
                 <label for="category" class="add_product_label">Categoría:</label>
-                <input type="text" class="add_product_input" id="category" name="product_category"
-                    placeholder="Elija enter alguna de las tres categorías existentes" />
+                <input type="text" class="add_product_input" id="category" name="product_category" placeholder="Elija enter alguna de las tres categorías existentes" />
             </li>
             <li id="submit_button_list">
                 <input value="Agregar" type="submit" id="submit_button" class="add_button">
@@ -135,15 +146,15 @@
     })
 
     document.querySelectorAll('.modal_add_button').forEach(button => {
-                button.addEventListener('click', (event) => {
-                    const productId = event.target.id.replace('open_modal_update_product_', '');
-                    const modal = document.getElementById(`modal_${productId}`);
-                    modal.showModal();
-                });
-            });
-
-        function closeModal(productId) {
+        button.addEventListener('click', (event) => {
+            const productId = event.target.id.replace('open_modal_update_product_', '');
             const modal = document.getElementById(`modal_${productId}`);
-            modal.close();
-        }
+            modal.showModal();
+        });
+    });
+
+    function closeModal(productId) {
+        const modal = document.getElementById(`modal_${productId}`);
+        modal.close();
+    }
 </script>

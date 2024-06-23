@@ -118,6 +118,61 @@ export class ViewProductController {
             return;
         }
     }
+
+    updateProduct = async (req, res) => {
+        try {
+            const { title, description, price, thumbnail, code, stock, status, category, _id } = req.body
+            const newProduct = { title, description, price, thumbnail, code, stock, status, category, _id }
+
+            for (let key in newProduct) {
+                if (typeof newProduct[key] === 'string') {
+                    newProduct[key] = newProduct[key].trim()
+                }
+                if (newProduct[key] === '') {
+                    delete newProduct[key]
+                }
+            }
+
+            if (newProduct.price) {
+                newProduct.price = parseFloat(newProduct.price)
+            }
+            if (newProduct.stock) {
+                newProduct.stock = parseInt(newProduct.stock, 10)
+            }
+            
+            if (newProduct.price && isNaN(newProduct.price) || newProduct.price <= 0) {
+                logger.warning(`El precio del artículo debe ser un valor numérico mayor que 0`)
+                res.status(400).send({
+                    status:  'Error',
+                    message: 'El precio del artículo debe ser un número y no puede ser 0 o negativo'
+                })
+            }
+            if (newProduct.stock && isNaN(newProduct.stock) || newProduct.stock <= 0) {
+                logger.warning(`La cantidad del producto a agregar debe ser un valor numérico entero mayor que 0`)
+                res.status(400).send({
+                    status:  'Error',
+                    message: 'El stock del producto debe ser un número entero y no puede ser 0 o negativo'
+                })
+            }
+
+            const productToUpdate = await this.viewsRouterService.update(newProduct._id, newProduct)
+            logger.debug(`Producto actualizado: ${productToUpdate}`)
+
+            const products = await this.viewsRouterService.get()
+            const { role, username } = req.user
+
+            res.render('productosActualizados', {
+                productos: products,
+                IsAdmin: role === 'admin',
+                username,
+                style: 'index.css'
+            })
+        } catch (error) {
+            logger.error("Error al intentar obtener la lista de productos actualizados: ", error);
+            res.render("Error al intentar obtener la lista de productos!");
+            return;
+        }
+    }
     
     products              = async (req, res) => {
         try {
