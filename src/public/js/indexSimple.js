@@ -87,37 +87,38 @@ function deleteProduct(productId) {
 
 socket.on('productsList', (productList) => {
     const adminProductListContainer = document.getElementById('adminProductList');
-    const userProductListContainer = document.getElementById('userProductList');
 
     const productHtml = productList.map(product => `
         <div>
             <li>
-                Nombre: <b>${product.title}</b>
+                Nombre:           <b>  ${product.title}      </b>
                 <p><b>Descripción:</b> ${product.description}</p>
-                <p>Precio: <b>$ ${product.price}</b></p>
-                <p>Código: <b>${product.code}</b></p>
-                <p>Stock: <b>${product.stock}</b></p>
-                <p>Id: <b>${product._id}</b></p>
+                <p>Precio:        <b>$ ${product.price}  </b></p>
+                <p>Código:        <b>  ${product.code}   </b></p>
+                <p>Stock:         <b>  ${product.stock}  </b></p>
+                <p>Id:            <b>  ${product._id}    </b></p>
                 <button type="button" class="delete_button" onclick='deleteProduct("${product._id}")'>Eliminar</button>
-                <button type="button" class="add_button modal_add_button" id="open_modal_update_product_${product._id}}">Actualizar</button>
+                <button type="button" class="add_button modal_add_button" id="open_modal_update_product_${product._id}">Actualizar</button>
                 <dialog id="modal_${product._id}" class="modal">
-                    <form class="form_modal" method="POST">
-                        <label for="product" class="field_modal_form">Nombre del producto</label>
-                        <input type="text" name="product" placeholder="Ingrese el nombre del producto" class="input_modal_form">
+                    <form action="/productosactualizados" class="form_modal" method="POST">
+                        <input type="hidden" name="_id" value="${product._id}">
+                        <label for="title" class="field_modal_form">Nombre del producto</label>
+                        <input type="text" name="title" placeholder="Ingrese el nombre del producto" class="input_modal_form" id="modal_title_${product._id}">
                         <label for="description" class="field_modal_form">Descripción</label>
-                        <input type="text" name="description" placeholder="Ingrese la descripción del producto" class="input_modal_form">
+                        <input type="text" name="description" placeholder="Ingrese la descripción del producto" class="input_modal_form" id="modal_description_${product._id}">
                         <label for="price" class="field_modal_form">Precio</label>
-                        <input type="text" name="price" placeholder="Ingrese el precio del producto" class="input_modal_form">
+                        <input type="text" name="price" placeholder="Ingrese el precio del producto" class="input_modal_form" id="modal_price_${product._id}">
                         <label for="thumbnail" class="field_modal_form">Imagen</label>
-                        <input type="text" name="thumbnail" placeholder="Ingrese una imagen descriptiva" class="input_modal_form">
+                        <input type="text" name="thumbnail" placeholder="Ingrese una imagen descriptiva" class="input_modal_form" id="modal_thumbnail_${product._id}">
                         <label for="code" class="field_modal_form">Código</label>
-                        <input type="text" name="code" placeholder="Ingrese el código del producto" class="input_modal_form">
+                        <input type="text" name="code" placeholder="Ingrese el código del producto" class="input_modal_form" id="modal_code_${product._id}">
                         <label for="stock" class="field_modal_form">Stock</label>
-                        <input type="text" name="stock" placeholder="Ingrese un número para el stock" class="input_modal_form">
+                        <input type="text" name="stock" placeholder="Ingrese un número para el stock" class="input_modal_form" id="modal_stock_${product._id}">
                         <label for="status" class="field_modal_form">Status</label>
-                        <input type="text" name="status" placeholder="Ingrese el status del producto" class="input_modal_form">
+                        <input type="text" name="status" placeholder="Ingrese el status del producto" class="input_modal_form" id="modal_status_${product._id}">
                         <label for="category" class="field_modal_form">Categoría</label>
-                        <input type="text" name="category" placeholder="Ingrese la categoría del producto" class="input_modal_form">
+                        <input type="text" name="category" placeholder="Ingrese la categoría del producto" class="input_modal_form" id="modal_category_${product._id}">
+                        <input value="Actualizar producto" type="submit" class="add_button button_submit_modal_form">
                     </form>
                     <button type="button" class="delete_button" onclick="closeModal('${product._id}')">Cerrar</button>
                 </dialog>
@@ -127,10 +128,6 @@ socket.on('productsList', (productList) => {
 
     if (adminProductListContainer) {
         adminProductListContainer.innerHTML = productHtml;
-    }
-
-    if (userProductListContainer) {
-        userProductListContainer.innerHTML = productHtml;
     }
 });
 

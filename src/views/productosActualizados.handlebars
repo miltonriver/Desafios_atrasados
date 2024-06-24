@@ -26,12 +26,12 @@
         {{#each productos}}
         <div>
             <li>
-                Nombre:           <b> {{this.title}}       </b>
+                Nombre:           <b>  {{this.title}}      </b>
                 <p><b>Descripción:</b> {{this.description}}</p>
                 <p>Precio:        <b>$ {{this.price}}  </b></p>
-                <p>Código:        <b> {{this.code}}    </b></p>
-                <p>Stock:         <b> {{this.stock}}   </b></p>
-                <p>Id:            <b> {{this._id}}     </b></p>
+                <p>Código:        <b>  {{this.code}}   </b></p>
+                <p>Stock:         <b>  {{this.stock}}  </b></p>
+                <p>Id:            <b>  {{this._id}}    </b></p>
                 <button type="button" class="delete_button" onclick='deleteProduct("{{this._id}}")'>Eliminar</button>
                 <button type="button" class="add_button modal_add_button" id="open_modal_update_product_{{this._id}}">Actualizar</button>
                 <dialog id="modal_{{this._id}}" class="modal">
@@ -53,7 +53,7 @@
                         <input type="text" name="status" placeholder="Ingrese el status del producto" class="input_modal_form" id="modal_status_${{this._id}}">
                         <label for="category" class="field_modal_form">Categoría</label>
                         <input type="text" name="category" placeholder="Ingrese la categoría del producto" class="input_modal_form" id="modal_category_${{this._id}}">
-                        <input value="update" type="submit" class="add_button">
+                        <input value="Actualizar producto" type="submit" class="add_button button_submit_modal_form">
                     </form>
                     <button type="button" class="delete_button" onclick="closeModal('{{this._id}}')">Cerrar</button>
                 </dialog>
@@ -108,14 +108,12 @@
         {{#each productos}}
         <div>
             <li>
-                Nombre: <b> {{this.title}} </b>
+                Nombre:           <b>  {{this.title}}      </b>
                 <p><b>Descripción:</b> {{this.description}}</p>
-                <p>Precio: <b>$ {{this.price}} </b></p>
-                <p>Stock: <b> {{this.stock}} </b></p>
+                <p>Precio:        <b>$ {{this.price}}  </b></p>
+                <p>Stock:         <b>  {{this.stock}}  </b></p>
                 <input type="number" id="quantity-{{this._id}}" value="1" min="1" max="{{this.stock}}" />
-                <button type="button" class="add_button"
-                    onclick='addProductToCart("{{this._id}}", document.getElementById("quantity-{{this._id}}").value)'>Agregar
-                    al carrito</button>
+                <button type="button" class="add_button" onclick='addProductToCart("{{this._id}}", document.getElementById("quantity-{{this._id}}").value)'>Agregar al carrito</button>
             </li>
         </div>
         {{/each}}
