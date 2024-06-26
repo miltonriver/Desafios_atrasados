@@ -128,8 +128,22 @@ socket.on('productsList', (productList) => {
 
     if (adminProductListContainer) {
         adminProductListContainer.innerHTML = productHtml;
+        attachModalEvents(productList);
     }
 });
+
+function attachModalEvents(productList) {
+    productList.forEach(product => {
+        const modalButton = document.getElementById(`open_modal_update_product_${product._id}`);
+        const modal = document.getElementById(`modal_${product._id}`);
+
+        if (modalButton && modal) {
+            modalButton.addEventListener('click', () => {
+                modal.showModal();
+            });
+        }
+    });
+}
 
 Swal.fire({
     title: "Autentificación requerida para poder ingresar",
